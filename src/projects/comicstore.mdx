@@ -1,9 +1,71 @@
----
-title: Project 1
-description: A short description of project 1
-image: /path/to/image.jpg
----
+import { ColorPalette } from "../pages/Blog";
 
-# Project 1
+# Objective
 
-This is the detailed description of project 1.
+The initial challenge was to fetch comic information from the Marvel API and display it in a responsive way.
+The project wasn't initially done in NextJs, but decided to migrate to it because I needed a simple backend for fetching the data in a simple way.
+I learned a bit about this backend React framework and how there are different ways to serve the files such as static export, server side rendering, and client side rendering.
+
+# Style
+
+I went for a neobrutalistic kind of style. It blends nicely with the aesthetic of the old retro comics. I used a small UI component library called [NBRTLSM](https://www.neobrutalism.dev/) that has nice predefined borders with transition effects. The color palette is also retro with no room for greys.
+
+<ColorPalette
+  colors={["#7a7ad8", "#93d0fc", "#6fcb9f", "#f0b51f", "#ff7863", "#F5C6CB"]}
+/>
+
+# A tidbit of the code
+```
+export default function ScrollCards({
+  currentItem,
+  items,
+  title,
+}) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const router = useRouter();
+
+  const onClickCard = (item) => {
+    router.push(`/store/${item.id}`);
+  };
+
+  const scroll = (direction) => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const scrollAmount = container.clientWidth * 0.8;
+      container.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollContainerRef.current) {
+        const container = scrollContainerRef.current;
+        setCanScrollLeft(container.scrollLeft > 0);
+        setCanScrollRight(
+          container.scrollLeft + container.clientWidth < container.scrollWidth
+        );
+      }
+    };
+
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", handleScroll);
+      handleScroll();
+      return () => container.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
+
+  return (
+    <article className="flex flex-col flex-1 rounded-base w-full p-2 px-4 overflow-hidden">
+      {/* ... */}
+    </article>
+  );
+}
+```
+
