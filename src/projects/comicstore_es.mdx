@@ -1,0 +1,114 @@
+import { ColorPalette } from "../pages/Blog";
+
+## Objetivo
+
+---
+
+<br/>
+
+> El objetivo inicial era buscar información de cómics con la API de Marvel y mostrarla de manera responsiva.
+> El proyecto no se realizó inicialmente en Next.js, pero decidí migrar a él porque necesitaba un backend para obtener los datos de forma sencilla.
+
+<br/>
+## Estilo
+
+---
+
+<br/>
+
+Opté por un estilo neobrutalista. Se mezcla bien con la estética de los cómics retros antiguos. Utilicé una pequeña biblioteca de componentes de UI llamada [NBRTLSM](https://www.neobrutalism.dev/) que tiene bordes predefinidos opacos con efectos de transición. La paleta de colores también es retro sin lugar para los grises.
+
+<ColorPalette
+  colors={["#7a7ad8", "#93d0fc", "#6fcb9f", "#f0b51f", "#ff7863", "#F5C6CB"]}
+/>
+
+## Fragmento del código
+
+---
+
+<br/>
+
+Este componente nos permite movernos a través de un array de cómics y mostrar su contenido con dos botones debido a su ancho dinámico. Con lo cual, funciona también en la versión móvil.
+También detectamos si los botones deben estar deshabilitados si podemos desplazarnos más a la izquierda o a la derecha.
+
+<br/>
+```ts
+export default function ScrollCards({
+  currentItem,
+  items,
+  title,
+    }) {
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
+
+    const router = useRouter();
+
+    const onClickCard = (item) => {
+        router.push(`/store/${item.id}`);
+    };
+
+    const scroll = (direction) => {
+        if (scrollContainerRef.current) {
+            const container = scrollContainerRef.current;
+            const scrollAmount = container.clientWidth \* 0.8;
+            container.scrollBy({
+                left: direction === "left" ? -scrollAmount : scrollAmount,
+                behavior: "smooth",
+            });
+        }
+    };
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (scrollContainerRef.current) {
+                const container = scrollContainerRef.current;
+                setCanScrollLeft(container.scrollLeft > 0);
+                setCanScrollRight(
+                    container.scrollLeft + container.clientWidth <br container.scrollWidth
+                );
+            }
+        };
+
+        const container = scrollContainerRef.current;
+        if (container) {
+            container.addEventListener("scroll", handleScroll);
+            handleScroll();
+            return () => container.removeEventListener("scroll", handleScroll);
+        }
+
+    }, []);
+
+    return (
+
+    <article className="flex flex-col flex-1 rounded-base w-full p-2 px-4 overflow-hidden">
+    {/* ... */}
+    <button
+        onClick={() => scroll("left")}
+        className= {/* ... */}
+        disabled={!canScrollLeft}
+    >
+        <FaChevronLeft className="w-full" />
+    </button>
+    <button
+        onClick={() => scroll("right")}
+        className= {/* ... */}
+        disabled={!canScrollRight}
+    >
+        <FaChevronRight className="w-full" />
+    </button>
+    {/* ... */}
+    </article>
+    );
+
+}
+
+```
+<br/>
+## Conclusión
+---
+<br/>
+Aprendí un poco sobre este framework de backend de React y cómo hay diferentes formas de servir los archivos dependiendo de si se usan componentes desde el lado del cliente o del servidor.
+
+El enrutador de la aplicación es un poco confuso al principio, especialmente cómo se introducen los parámetros.
+```

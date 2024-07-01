@@ -1,0 +1,128 @@
+## Objetivo
+
+---
+
+<br/>
+Quería crear una aplicación sencilla para poner a prueba mi conocimiento de vocabulario japonés.
+
+Después de extraer algunos mazos de Noken, decidí que estaría bien mostrar el porcentaje de palabras conocidas en el mazo. También añadí algunas opciones personalizables para los inputs de teclado y shortcuts.
+
+<br/>
+
+## Estilo
+
+---
+
+Utilicé Daisy UI para el diseño. Es una biblioteca de UI interesante que tiene una gran cantidad de componentes y una paleta de colores agradable.
+
+<br/>
+
+## Dificultades
+
+---
+
+<br/>
+
+Debugueé este bloque de código durante una tarde entera porque no podía pasar a la siguiente palabra sin pulsar el botón Enter. Cada vez que se reiniciaba `inputRef` a "", la palabra anterior seguía mostrándose cuando intentaba introducir la siguiente letra. Al final, un pequeño timeout después de enviar la respuesta en kanji solucionó el problema.
+
+También le añadí un focus a `inputRef` después del timeout para que no fuera necesario hacer clic de nuevo en el input.
+
+<br/>
+
+```typescript
+export function WordCard({ word, onAnswer }: WordCardProps) {
+  const { inputMode, isRomajiInput } = useDeckStore();
+  const [inputValue, setInputValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toLowerCase();
+    setInputValue(value);
+
+    if (word) {
+      const answers = processAnswer(word.answer);
+      const processedAnswers = isRomajiInput
+        ? answers.map((answer) => toRomaji(answer.toLowerCase()))
+        : answers;
+
+      if (processedAnswers.includes(value)) {
+        onAnswer(true);
+        setInputValue("");
+      } else if (value.includes("1") || value.includes("１")) {
+        onAnswer(false);
+        setInputValue("");
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "1") {
+        onAnswer(false);
+      } else if (
+        (!inputMode && event.key === "2") ||
+        (!inputMode && event.key === " ")
+      ) {
+        onAnswer(true);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onAnswer, inputMode]);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      setTimeout(() => {
+        if (inputRef.current != null) inputRef.current.focus();
+      }, 100);
+    }
+    setInputValue("");
+  }, [word]);
+
+  return (
+    word && (
+      <article className="w-96 shadow-xl bg-primary-content rounded-lg overflow-hidden flex flex-col">
+        {/* ... */}
+        <input
+          key={word.question}
+          type="text"
+          className="p-2 bg-primary-content text-neutral-content h-full w-full border-2 border-neutral-content rounded-lg"
+          value={inputValue}
+          onChange={(e) => handleInput(e)}
+          ref={inputRef}
+        />
+      </article>
+    )
+  );
+}
+<br/>
+El margen de error se calcula utilizando esta función:
+
+<br/>
+typescript
+Copy code
+export function calculateResultWithError(j: number, n: number, N: number, initialResult: number): { result: string, SE: string } {
+
+  // Calculate the finite population correction factor
+  const FPC: number = (N - n) / (N - 1);
+
+  // Calculate the sample proportion
+  const p: number = (j + 0.5) / (n + 1);
+
+  // Calculate the standard error
+  const SE: number = Math.sqrt((p * (1 - p) / n) * FPC) * 100;
+
+  return {
+    result: initialResult.toFixed(1),
+    SE: SE.toFixed(1)
+  };
+}
+<br/>
+##Conclusión
+---
+<br/>
+Mi nivel de japonés es malísimo.
+```

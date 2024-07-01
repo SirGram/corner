@@ -2,16 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
-    background-color: black;
-    color:whitesmoke
-}
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 
 }
+
 
 @layer base{
     h1{
@@ -32,6 +30,9 @@
     
     a{
         @apply font-bold hover:underline;
+    }
+    body{
+        @apply bg-base-100  dark:bg-darkBase-100 text-text dark:text-darkText;
     }
     
 }

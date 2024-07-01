@@ -7,6 +7,7 @@ import { DetailedHTMLProps, HTMLAttributes, useEffect, useState } from "react";
 import slugify from "slugify";
 import { technologyIcons } from "../components/TechIcons";
 import Button from "../components/Button";
+import { useGlobalContext } from "../context/GlobalContext";
 
 interface Heading {
   id: string;
@@ -74,7 +75,7 @@ export function ColorPalette({ colors }: ColorPaletteProps) {
       ))}
     </div>
   );
-} 
+}
 
 export default function Blog() {
   const { id } = useParams<{ id: string }>();
@@ -82,7 +83,8 @@ export default function Blog() {
     (project) => project.id === id
   );
 
-  const MDXContent = project?.mdxContent;
+  const {language} = useGlobalContext()
+  const MDXContent = project?.mdxContent[language];
   type HeadingProps = DetailedHTMLProps<
     HTMLAttributes<HTMLHeadingElement>,
     HTMLHeadingElement
@@ -130,7 +132,8 @@ export default function Blog() {
       const codeBlocks = document.querySelectorAll("pre code");
       codeBlocks.forEach((block) => {
         const wrapper = document.createElement("div");
-        wrapper.className = "max-h-[20rem] overflow-y-auto border-base border-border rounded-base";
+        wrapper.className =
+          "max-h-[20rem] overflow-auto border-base border-border rounded-base";
         if (block.parentNode) block.parentNode.insertBefore(wrapper, block);
         wrapper.appendChild(block);
       });
@@ -165,8 +168,8 @@ export default function Blog() {
                   href={`#${heading.id}`}
                   className={
                     activeId === heading.id
-                      ? "text-red-600"
-                      : "text-current hover:text-red-400"
+                      ? "text-primary dark:text-darkPrimary"
+                      : "text-current hover:text-primary dark:hover:text-darkPrimary "
                   }
                 >
                   {heading.text}
@@ -180,8 +183,8 @@ export default function Blog() {
         <div className="border-base border-border rounded-base p-4 ">
           <div className="flex flex-1  w-full mb-6">
             <div className="flex flex-col flex-1 w-full">
-              <h1 className="text-left w-full mb-6">{project.name}</h1>
-              <span className="text-left w-full text-xl">{project.date}</span>
+              <h1 className="text-left w-full mb-6">{project.name[language]}</h1>
+              <span className="text-left w-full text-xl">{project.date[language]}</span>
             </div>
             <div>
               <div className="flex flex-col h-full  justify-between ">
