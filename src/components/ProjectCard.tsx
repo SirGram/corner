@@ -1,19 +1,24 @@
-import { useEffect, useRef, useState } from "react";
 import { Project } from "../types/types";
 import { technologyIcons } from "./TechIcons";
 import VideoPreview from "./VideoPreview";
 import { Link } from "react-router-dom";
 import Button from "./Button";
+import { useGlobalContext } from "../context/GlobalContext";
 
-export default function ProjectCard({ project }: { project: Project }) {
+interface ProjectCardProps {
+  project: Project;
+}
+
+export default function ProjectCard({ project }: ProjectCardProps) {
   const sortedTechnologies = [...project.technologies].sort();
+  const { language } = useGlobalContext() ;
 
   return (
     <article className="flex flex-col lg:flex-row w-full h-fit justify-between border-base border-border rounded-base gap-10 p-4">
       <div className="relative flex flex-col flex-1 justify-between">
         <div>
           <div className="flex justify-between items-start w-full">
-            <h1 className="text-5xl mb-6">{project.name}</h1>
+            <h1 className="text-5xl mb-6">{project.name[language]}</h1>
             <div className="flex flex-wrap gap-2 border-base border-border p-2 rounded-base w-fit">
               {sortedTechnologies.map((tech, index) => (
                 <div
@@ -26,18 +31,18 @@ export default function ProjectCard({ project }: { project: Project }) {
               ))}
             </div>
           </div>
-          <p className="mx-2 pb-2 text-left">{project.description}</p>
+          <p className="mx-2 pb-2 text-left">{project.description[language]}</p>
         </div>
 
         <div className="flex flex-col gap-2">
           {project.hasBlog && (
             <Link to={`/blog/${project.id}`} className="text-base hover:underline">
-              <Button text="READ MORE" />
+              <Button text={language === 'en' ? 'READ MORE' : 'LEER MÁS'} />
             </Link>
           )}
           <div className="flex w-full gap-2">
             <Button href={project.codeURL} text="&lt;/&gt;" />
-            <Button href={project.previewURL} text="PREVIEW" />
+            <Button href={project.previewURL} text={language === 'en' ? 'PREVIEW' : 'VISTA PREVIA'} />
           </div>
         </div>
       </div>
@@ -47,4 +52,3 @@ export default function ProjectCard({ project }: { project: Project }) {
     </article>
   );
 }
-
