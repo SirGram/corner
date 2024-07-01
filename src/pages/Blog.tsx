@@ -3,12 +3,8 @@ import { Project } from "../types/types";
 import { projects } from "../projects/projects";
 import VideoPreview from "../components/VideoPreview";
 import { MDXProvider } from "@mdx-js/react";
-import { useEffect, useState } from "react";
+import { DetailedHTMLProps, HTMLAttributes, useEffect, useState } from "react";
 import slugify from "slugify";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-
-interface BlogModalProps {}
 
 interface Heading {
   id: string;
@@ -81,37 +77,32 @@ export function ColorPalette({ colors }: ColorPaletteProps) {
   );
 }
 
-function code({ className, ...properties }) {
-  const match = /language-(\w+)/.exec(className || "");
-  return match ? (
-    <SyntaxHighlighter language={match[1]} PreTag="div" {...properties} />
-  ) : (
-    <code className={className} {...properties} />
-  );
-}
-
-export default function BlogModal({}: BlogModalProps) {
+export default function Blog() {
   const { id } = useParams<{ id: string }>();
   const project: Project | undefined = projects.find(
     (project) => project.id === id
   );
 
   const MDXContent = project?.mdxContent;
+  type HeadingProps = DetailedHTMLProps<
+    HTMLAttributes<HTMLHeadingElement>,
+    HTMLHeadingElement
+  >;
+
   const components = {
-    h1: (props: any) => {
-      const id = props.id || slugify(props.children || "heading");
+    h1: (props: HeadingProps) => {
+      const id = props.id || slugify((props.children as string) || "heading");
       return <h1 id={id} {...props} />;
     },
-    h2: (props: any) => {
-      const id = props.id || slugify(props.children || "heading");
+    h2: (props: HeadingProps) => {
+      const id = props.id || slugify((props.children as string) || "heading");
       return <h2 id={id} {...props} />;
     },
-    h3: (props: any) => {
-      const id = props.id || slugify(props.children || "heading");
+    h3: (props: HeadingProps) => {
+      const id = props.id || slugify((props.children as string) || "heading");
       return <h3 id={id} {...props} />;
     },
     ColorPalette: ColorPalette,
-    code: code,
   };
 
   const [headings, setHeadings] = useState<Heading[]>([]);
@@ -180,11 +171,16 @@ export default function BlogModal({}: BlogModalProps) {
       <section className="border-base border-border rounded-base p-4 h-full w-full max-w-[50rem] mx-auto flex flex-col justify-center items-center">
         <h1 className="text-left w-full mb-6">{project.name}</h1>
         <VideoPreview src={project.src} preview={false} />
+
+        <article className="max-w-[50rem] p-4">
+
+
         {MDXContent && (
           <MDXProvider components={components}>
             <MDXContent />
           </MDXProvider>
         )}
+        </article>
       </section>
     </div>
   );
