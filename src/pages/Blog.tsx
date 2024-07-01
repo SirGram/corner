@@ -5,6 +5,8 @@ import VideoPreview from "../components/VideoPreview";
 import { MDXProvider } from "@mdx-js/react";
 import { DetailedHTMLProps, HTMLAttributes, useEffect, useState } from "react";
 import slugify from "slugify";
+import { technologyIcons } from "../components/TechIcons";
+import Button from "../components/Button";
 
 interface Heading {
   id: string;
@@ -16,41 +18,38 @@ function useActiveId(itemIds: string[]): string {
   const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
-    console.log("Setting up IntersectionObserver with ids:", itemIds);
+    const observers = new Map();
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          console.log(
-            "Intersection detected:",
-            entry.target.id,
-            entry.isIntersecting
-          );
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
-        });
-      },
-      { rootMargin: "0% 0% -60% 0%" }
-    );
+    const callback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        observers.get(entry.target).isIntersecting = entry.isIntersecting;
+      });
+
+      const visibleHeadings = Array.from(observers.entries())
+        .filter(([, observer]) => observer.isIntersecting)
+        .map(([element]) => element.id);
+
+      if (visibleHeadings.length > 0) {
+        setActiveId(visibleHeadings[0]);
+      }
+    };
+
+    const observer = new IntersectionObserver(callback, {
+      rootMargin: "-20% 0% -60% 0%",
+      threshold: 1.0,
+    });
 
     itemIds.forEach((id) => {
       const element = document.getElementById(id);
       if (element) {
+        observers.set(element, { isIntersecting: false });
         observer.observe(element);
-        console.log("Observing element:", id);
-      } else {
-        console.log("Element not found:", id);
       }
     });
 
     return () => {
-      itemIds.forEach((id) => {
-        const element = document.getElementById(id);
-        if (element) {
-          observer.unobserve(element);
-        }
-      });
+      observers.clear();
+      observer.disconnect();
     };
   }, [itemIds]);
 
@@ -63,7 +62,7 @@ interface ColorPaletteProps {
 
 export function ColorPalette({ colors }: ColorPaletteProps) {
   return (
-    <div className="flex flex-wrap gap-4 my-4">
+    <div className="flex flex-wrap gap-4 my-4 w-fit mx-auto p-2 justify-center border-border border-base rounded-base">
       {colors.map((color, index) => (
         <div key={index} className="flex flex-col items-center">
           <div
@@ -75,7 +74,7 @@ export function ColorPalette({ colors }: ColorPaletteProps) {
       ))}
     </div>
   );
-}
+} 
 
 export default function Blog() {
   const { id } = useParams<{ id: string }>();
@@ -126,6 +125,15 @@ export default function Blog() {
         };
       });
       setHeadings(newHeadings);
+
+      // code block overflow
+      const codeBlocks = document.querySelectorAll("pre code");
+      codeBlocks.forEach((block) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "max-h-[20rem] overflow-y-auto border-base border-border rounded-base";
+        if (block.parentNode) block.parentNode.insertBefore(wrapper, block);
+        wrapper.appendChild(block);
+      });
     }
   }, [MDXContent]);
 
@@ -135,8 +143,8 @@ export default function Blog() {
 
   if (!project) return null;
   return (
-    <div className="flex">
-      <aside className="w-64 p-4 fixed top-20 h-screen overflow-auto z-20">
+    <div className="flex flex-col lg:flex-row">
+      <aside className="w-fit p-4 lg:sticky top-20 h-fit mx-auto flex justify-center  z-20">
         <nav>
           <ul>
             {headings.map((heading) => (
@@ -168,18 +176,37 @@ export default function Blog() {
           </ul>
         </nav>
       </aside>
-      <section className="border-base border-border rounded-base p-4 h-full w-full max-w-[50rem] mx-auto flex flex-col justify-center items-center">
-        <h1 className="text-left w-full mb-6">{project.name}</h1>
-        <VideoPreview src={project.src} preview={false} />
+      <section className="h-full w-full max-w-[50rem] mx-auto flex flex-col justify-center items-center">
+        <div className="border-base border-border rounded-base p-4 ">
+          <div className="flex flex-1  w-full mb-6">
+            <div className="flex flex-col flex-1 w-full">
+              <h1 className="text-left w-full mb-6">{project.name}</h1>
+              <span className="text-left w-full text-xl">{project.date}</span>
+            </div>
+            <div>
+              <div className="flex flex-col h-full  justify-between ">
+                <Button href={project.codeURL} text="&lt;/&gt;" />
+                <Button href={project.previewURL} text="PREVIEW" />
+              </div>
+            </div>
+          </div>
+          <VideoPreview src={project.src} preview={false} />
+          <div className="flex flex-wrap gap-4 mt-4">
+            {project.technologies.sort().map((tech, index) => (
+              <div key={index} className="flex items-center gap-2" title={tech}>
+                <div className="size-6">{technologyIcons[tech]()}</div>
+                <div>{tech.charAt(0).toUpperCase() + tech.slice(1)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
 
         <article className="max-w-[50rem] p-4">
-
-
-        {MDXContent && (
-          <MDXProvider components={components}>
-            <MDXContent />
-          </MDXProvider>
-        )}
+          {MDXContent && (
+            <MDXProvider components={components}>
+              <MDXContent />
+            </MDXProvider>
+          )}
         </article>
       </section>
     </div>
