@@ -4,11 +4,13 @@ import comicVideo from "../assets/videos/comicstore.mp4";
 import jgraderVideo from "../assets/videos/jgrader.mp4";
 
 import comicStoreMDX from "./comicstore.mdx";
+import jgraderMDX from "./jgrader.mdx";
 
 
 export const projects: Project[] = [
   {
-    id:'1',
+    id: '1',
+    date: "May 2024",
     name: "Comic Store",
     description:
       "A Next.js application for comics and graphic novels. This app integrates with the Marvel API to display a wide range of comics, allowing users to filter through the collection, view detailed information, and add items to their cart.",
@@ -20,8 +22,9 @@ export const projects: Project[] = [
     mdxContent: comicStoreMDX,
   },
   {
-    id:'2',
-    name: "JP Grader",
+    id: '2',
+    date: "June 2024",
+    name: "J-Grader",
     description:
       "Tests your Japanese vocabulary knowledge. It has several decks with different levels of difficulty. After you complete the test, the results will show you your score and the percentage of correct answers.",
     src: jgraderVideo,
@@ -29,5 +32,6 @@ export const projects: Project[] = [
     previewURL: "https://sirgram.github.io/j-grader/",
     hasBlog: true,
     technologies: ["tailwind", "vite", "typescript", "react"],
+    mdxContent: jgraderMDX,
   },
 ];

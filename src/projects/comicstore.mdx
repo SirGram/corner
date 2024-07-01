@@ -1,12 +1,20 @@
 import { ColorPalette } from "../pages/Blog";
 
-# Objective
+## Objective
 
-The initial challenge was to fetch comic information from the Marvel API and display it in a responsive way.
-The project wasn't initially done in NextJs, but decided to migrate to it because I needed a simple backend for fetching the data in a simple way.
-I learned a bit about this backend React framework and how there are different ways to serve the files such as static export, server side rendering, and client side rendering.
+---
 
-# Style
+<br/>
+
+> The initial challenge was to fetch comic information from the Marvel API and display it in a responsive way.
+> The project wasn't initially done in NextJs, but I decided to migrate to it because I needed a backend for fetching the data in a simple way.
+
+<br/>
+## Style
+
+---
+
+<br/>
 
 I went for a neobrutalistic kind of style. It blends nicely with the aesthetic of the old retro comics. I used a small UI component library called [NBRTLSM](https://www.neobrutalism.dev/) that has nice predefined borders with transition effects. The color palette is also retro with no room for greys.
 
@@ -14,8 +22,17 @@ I went for a neobrutalistic kind of style. It blends nicely with the aesthetic o
   colors={["#7a7ad8", "#93d0fc", "#6fcb9f", "#f0b51f", "#ff7863", "#F5C6CB"]}
 />
 
-# Code snippet
-```js
+## Code snippet
+
+---
+
+<br/>
+
+This component allows us to move through a comic array and display its content in a responsive way with two buttons because of its dynamic width.
+We also detect whether the buttons should be disabled if we can scroll more to the left or to the right.
+
+<br/>
+```ts
 export default function ScrollCards({
   currentItem,
   items,
@@ -25,33 +42,33 @@ export default function ScrollCards({
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
-  const router = useRouter();
+const router = useRouter();
 
-  const onClickCard = (item) => {
-    router.push(`/store/${item.id}`);
-  };
+const onClickCard = (item) => {
+router.push(`/store/${item.id}`);
+};
 
-  const scroll = (direction) => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const scrollAmount = container.clientWidth * 0.8;
-      container.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
+const scroll = (direction) => {
+if (scrollContainerRef.current) {
+const container = scrollContainerRef.current;
+const scrollAmount = container.clientWidth \* 0.8;
+container.scrollBy({
+left: direction === "left" ? -scrollAmount : scrollAmount,
+behavior: "smooth",
+});
+}
+};
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (scrollContainerRef.current) {
-        const container = scrollContainerRef.current;
-        setCanScrollLeft(container.scrollLeft > 0);
-        setCanScrollRight(
-          container.scrollLeft + container.clientWidth < container.scrollWidth
-        );
-      }
-    };
+useEffect(() => {
+const handleScroll = () => {
+if (scrollContainerRef.current) {
+const container = scrollContainerRef.current;
+setCanScrollLeft(container.scrollLeft > 0);
+setCanScrollRight(
+container.scrollLeft + container.clientWidth <br container.scrollWidth
+);
+}
+};
 
     const container = scrollContainerRef.current;
     if (container) {
@@ -59,13 +76,43 @@ export default function ScrollCards({
       handleScroll();
       return () => container.removeEventListener("scroll", handleScroll);
     }
-  }, []);
 
-  return (
-    <article className="flex flex-col flex-1 rounded-base w-full p-2 px-4 overflow-hidden">
-      {/* ... */}
-    </article>
-  );
+}, []);
+
+return (
+
+<article className="flex flex-col flex-1 rounded-base w-full p-2 px-4 overflow-hidden">
+  {/* ... */}
+  <button
+    onClick={() => scroll("left")}
+    className= {/* ... */}
+    disabled={!canScrollLeft}
+  >
+    <FaChevronLeft className="w-full" />
+  </button>
+  <button
+    onClick={() => scroll("right")}
+    className= {/* ... */}
+    disabled={!canScrollRight}
+  >
+    <FaChevronRight className="w-full" />
+  </button>
+  {/* ... */}
+</article>
+);
 }
+
 ```
 
+
+<br/>
+## Conclusion
+---
+<br/>
+
+> I learned a bit about this backend React framework and how there are different ways to serve the files depending on whether you use client or server side components.
+
+> The app router is a bit confusing at first, especially how you input the parameters.
+
+
+```

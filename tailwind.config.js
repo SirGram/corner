@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       cursor: {
-        custom: 'url(/cursor.svg) 16 16, auto',
+        custom: 'url(/cursor.svg) 10 10, auto',
       },
       colors: {
         base: {

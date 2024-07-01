@@ -2,6 +2,7 @@ import { technologyIcons } from "../components/TechIcons";
 
 export type Project = {
     id: string;
+    date: string;
     name: string;
     description: string;
     src: string;
