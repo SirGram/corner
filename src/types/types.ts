@@ -18,15 +18,15 @@ export type Project = {
     es: string;
   };
 
-  src: string;
+  src?: string;
   codeURL: string;
   previewURL: string;
-  hasBlog: boolean;
   technologies: Technology[];
-    mdxContent?: {
-      en: React.ComponentType;
-      es: React.ComponentType;
-  }
+  mdxContent?: {
+    en: React.ComponentType;
+    es: React.ComponentType;
+  };
+  archive?:boolean;
 };
 
 type Technology = keyof typeof technologyIcons;
