@@ -8,4 +8,7 @@ export default defineConfig({
   plugins: [react(), mdx({
     rehypePlugins: [rehypeHighlight]
   })],
+   optimizeDeps: {
+    include: ['react-country-flag']
+  }
 });
