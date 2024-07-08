@@ -1,0 +1,196 @@
+
+## El juego de Tak
+
+---
+
+<br />
+Tak es un juego de mesa similar a chess con 2 jugadores donde puedes mover varias piezas durante un turno mientras intentas crear puentes entre lados.
+
+En cada turno, se selecciona una pila de piezas que posees y se mueven en una dirección mientras deja al menos una en cada casilla.
+<br />
+## Características
+
+---
+
+<br />
+- Local y multijugador
+- Sistema de mensajes
+- Historial de movimientos
+- Lobby y salas
+- Efectos de sonido
+- Representación de tablero 2D
+- Actualizaciones en tiempo real
+
+<br />
+
+## Modelos y estilo
+
+---
+
+<br />
+Utilicé Blender para modelar los juegos de mesa y el tablero y crear algunos texturas.
+Para la interfaz, escogí mi librería de componentes preferida, ShadCN.
+<br />
+## Desafíos
+
+---
+
+<br />
+Un tablero normalmente se representa como una matriz 2D. Para transformar esa representación en un tablero 3D, escribí esta función:
+
+<br />
+```typescript
+  function transformPieces(pieces: Piece[], board: TBoard): Piece3DExtended[] {
+        let whiteFlatstoneCount = 0;
+        let blackFlatstoneCount = 0;
+        let whiteCapstoneCount = 0;
+        let blackCapstoneCount = 0;
+        const stackHeights: { [key: string]: number } = {};
+
+        return pieces.map((piece: Piece): Piece3DExtended => {
+            const tile = board.find((t) => t.pieces.includes(piece.id));
+            if (tile) {
+                // If the piece is on the board
+                const tileKey = `${tile.position.x},${tile.position.y}`;
+
+                if (!stackHeights[tileKey]) {
+                    stackHeights[tileKey] = 0;
+                }
+
+                const pieceIndex = tile.pieces.indexOf(piece.id);
+                const pieceHeight = tile.pieces.slice(0, pieceIndex).reduce((height, pieceId) => {
+                    const p = pieces.find((p) => p.id === pieceId);
+                    return height + (p ? pieceHeights[p.type] : 0);
+                }, 0);
+
+                return {
+                    ...piece,
+                    position: [tile.position.x, pieceHeight, tile.position.y],
+                    height: pieceHeights[piece.type],
+                    model: getPieceModel(piece),
+                };
+            } else {
+                // If the piece is not on the board, place it in a pile
+                let position: Position3D;
+                let height: number;
+
+                if (piece.type === 'flatstone' || piece.type === 'standingstone') {
+                    if (piece.color === 'white') {
+                        const pileIndex = whiteFlatstoneCount % 3;
+                        position = WHITE_PILES[pileIndex];
+                        height = Math.floor(whiteFlatstoneCount / 3) * pieceHeights['flatstone'];
+                        whiteFlatstoneCount++;
+                    } else {
+                        const pileIndex = blackFlatstoneCount % 3;
+                        position = BLACK_PILES[pileIndex];
+                        height = Math.floor(blackFlatstoneCount / 3) * pieceHeights['flatstone'];
+                        blackFlatstoneCount++;
+                    }
+                } else {
+                    // capstone
+                    if (piece.color === 'white') {
+                        position = WHITE_CAPSTONE_PILE;
+                        height = whiteCapstoneCount * pieceHeights['capstone'];
+                        whiteCapstoneCount++;
+                    } else {
+                        position = BLACK_CAPSTONE_PILE;
+                        height = blackCapstoneCount * pieceHeights['capstone'];
+                        blackCapstoneCount++;
+                    }
+                }
+
+                return {
+                    ...piece,
+                    position: [position[0], position[1] + height, position[2]],
+                    height: pieceHeights[piece.type],
+                    model: getPieceModel(piece),
+                };
+            }
+        });
+    }
+
+```
+
+<br />
+
+
+Decidir qué debería pasar en el servidor y qué en el cliente fue un gran problema.
+Pensé que sería más fácil pasar de un prototipo de juego local a un juego de servidor multijugador, pero no fue así. Tomó bastante tiempo.
+
+Comprobar si el juego ha ganado entre cada movimiento es difícil. Hay varias formas en que el juego puede terminar.
+También tenemos que tener en cuenta que necesitamos comprobar si ha ganado no cuando un turno ha terminado, sino cada vez que una pieza ha sido movida.
+
+Hay hasta un caso específico donde una pieza crea un puente para cada jugador.
+<br />
+```typescript
+
+const checkGameOver = (gameState: ServerGameState): ServerGameState => {
+  const updatedGameState = { ...gameState };
+
+  // Check roads for both players
+  const currentPlayerRoad = checkRoadWin(
+    updatedGameState.tiles,
+    updatedGameState.currentPlayer as PieceColor,
+    updatedGameState.pieces
+  );
+  const otherPlayer = updatedGameState.currentPlayer === 'white' ? 'black' : 'white';
+  const otherPlayerRoad = checkRoadWin(
+    updatedGameState.tiles,
+    otherPlayer,
+    updatedGameState.pieces
+  );
+
+  // If the current player has a road, they win regardless of the other player's road
+  if (currentPlayerRoad) {
+    updatedGameState.winner = updatedGameState.currentPlayer;
+    updatedGameState.gameOver = true;
+    return updatedGameState;
+  }
+
+  // If only the other player has a road, they win
+  if (otherPlayerRoad) {
+    updatedGameState.winner = otherPlayer;
+    updatedGameState.gameOver = true;
+    return updatedGameState;
+  }
+
+  // Check empty tiles and selectable pieces
+  const boardFull = isBoardFull(updatedGameState.tiles);
+  const playerWithNoPieces = isAnyPlayerWithoutPieces(
+    updatedGameState.pieces,
+    updatedGameState.tiles
+  );
+
+  if (boardFull || playerWithNoPieces) {
+    const whiteFlatstones = getFlatstones(
+      updatedGameState.tiles,
+      'white',
+      updatedGameState.pieces
+    );
+    const blackFlatstones = getFlatstones(
+      updatedGameState.tiles,
+      'black',
+      updatedGameState.pieces
+    );
+
+    // Win based on flatstones number
+    if (whiteFlatstones > blackFlatstones) {
+      updatedGameState.winner = 'white';
+    } else if (whiteFlatstones < blackFlatstones) {
+      updatedGameState.winner = 'black';
+    } else {
+      updatedGameState.winner = 'tie';
+    }
+
+    updatedGameState.gameOver = true;
+  }
+
+  return updatedGameState;
+};
+```
+
+## Conclusión
+---
+
+<br />
+Cuando comencé a programar este proyecto, no sabía cómo jugar al juego. Después de intentar, es un juego relajante con profundidad sorprendente.

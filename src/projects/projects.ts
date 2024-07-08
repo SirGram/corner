@@ -2,18 +2,21 @@ import { Project } from "../types/types";
 
 import comicVideo from "../assets/videos/comicstore.mp4";
 import jgraderVideo from "../assets/videos/jgrader.mp4";
+import takVideo from "../assets/videos/tak.mp4";
 
 import comicStoreMDX_EN from "./comicstore_en.mdx";
 import comicStoreMDX_ES from "./comicstore_es.mdx";
 import jgraderMDX_EN from "./jgrader_en.mdx";
 import jgraderMDX_ES from "./jgrader_es.mdx";
+import takMDX_EN from "./tak_en.mdx";
+import takMDX_ES from "./tak_es.mdx";
 
 export const projects: Project[] = [
   {
     id: "1",
     date: {
-      en: "May 2024",
-      es: "Mayo 2024",
+      en: "March 2024",
+      es: "Marzo 2024",
     },
     name: {
       en: "Comic Store",
@@ -35,8 +38,8 @@ export const projects: Project[] = [
   {
     id: "2",
     date: {
-      en: "June 2024",
-      es: "Junio 2024",
+      en: "May 2024",
+      es: "Mayo 2024",
     },
     name: {
       en: "J-Grader",
@@ -154,5 +157,29 @@ export const projects: Project[] = [
       "https://sirgram.github.io/theodinproject/javascript/library/",
     technologies: ["javascript", "css", "html"],
     archive: true,
+  },
+  {
+    id: "8",
+    date: {
+      en: "June 2024",
+      es: "Junio 2024",
+    },
+    name: {
+      en: "Tak",
+      es: "Tak",
+    },
+    description: {
+      en: "A react 3 fiber multiplayer board game rendition. Uses socket.io for realtime interactions between players.",
+      es: "Juego de mesa multiplayer con react 3 fiber. Utiliza socket.io para interacciones en tiempo real entre jugadores.",
+    },
+    codeURL: "https://github.com/SirGram/tak",
+    previewURL:
+      "https://tak.fly.dev/",
+    technologies: ["typescript", "tailwind", "react", 'socketio', 'express', 'vite', 'blender'],
+    src: takVideo,
+    mdxContent: {
+      en: takMDX_EN,
+      es: takMDX_ES,
+    },
   },
 ];

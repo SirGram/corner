@@ -20,12 +20,12 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       } w-full h-fit justify-between items-center border-base border-border rounded-base gap-10 p-4`}
     >
       <div
-        className={`relative flex flex-col ${
+        className={`relative flex flex-1   flex-col ${
           project.src ? "lg:w-1/2" : "w-full"
-        } justify-between  `}
+        } justify-between   `}
       >
-        <div>
-          <div className="flex justify-between items-start w-full">
+        <div className="">
+          <div className="flex justify-between  items-start w-full">
             <div className="flex flex-col ">
 
             <h1 className="text-5xl mb-2">{project.name[language]}</h1>

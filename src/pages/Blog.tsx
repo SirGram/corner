@@ -83,6 +83,8 @@ export default function Blog() {
     (project) => project.id === id
   );
 
+  console.log(project)
+
   const {language} = useGlobalContext()
   const MDXContent = project?.mdxContent[language];
   type HeadingProps = DetailedHTMLProps<
@@ -131,11 +133,16 @@ export default function Blog() {
       // code block overflow
       const codeBlocks = document.querySelectorAll("pre code");
       codeBlocks.forEach((block) => {
-        const wrapper = document.createElement("div");
-        wrapper.className =
-          "max-h-[20rem] overflow-auto border-base border-border rounded-base";
-        if (block.parentNode) block.parentNode.insertBefore(wrapper, block);
-        wrapper.appendChild(block);
+        if (!block.parentNode?.classList.contains("code-wrapper")) {
+          const wrapper = document.createElement("div");
+          wrapper.className = "code-wrapper max-h-[20rem] overflow-auto border-base border-border rounded-base ";
+          block.parentNode?.insertBefore(wrapper, block);
+          wrapper.appendChild(block);
+          
+          // Remove conflicting classes from the pre element
+          block.classList.remove("overflow-auto", "max-h-[20rem]");
+          block.classList.add("overflow-visible", "m-0");
+        }
       });
     }
   }, [MDXContent]);
@@ -146,7 +153,7 @@ export default function Blog() {
 
   if (!project) return null;
   return (
-    <div className="flex flex-col lg:flex-row">
+    <div className="flex flex-col lg:flex-row mb-20">
       <aside className="w-fit p-4 lg:sticky top-20 h-fit mx-auto flex justify-center  z-20">
         <nav>
           <ul>
@@ -193,7 +200,7 @@ export default function Blog() {
               </div>
             </div>
           </div>
-          <VideoPreview src={project.src} preview={false} />
+          { project.src && <VideoPreview src={project.src} preview={false} /> }
           <div className="flex flex-wrap gap-4 mt-4">
             {project.technologies.sort().map((tech, index) => (
               <div key={index} className="flex items-center gap-2" title={tech}>

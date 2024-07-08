@@ -1,0 +1,204 @@
+## The game of Tak
+
+---
+
+<br />
+
+Tak is a boardgame similar to chess with 2 players where you can move several pieces during a turn while trying to create bridges between sides.
+
+During a turn, you select a stack of pieces you 'own' and move them in a direction while leaving at least one on each tile.
+
+<br />
+## Features
+
+---
+
+<br />
+-Local and multiplayer 
+
+-Message system 
+
+-History of moves 
+
+-Lobby and rooms
+
+-Sound effects 
+
+-2D board representation 
+
+-Updates in real time
+
+<br />
+
+## Models and style
+
+---
+
+<br />
+I used Blender for modelling the game pieces and board and creating some textures.
+
+ For the UI, I went with my preferred Component Library ShadCN.
+<br />
+## Challenges
+
+---
+
+<br />
+
+A board is normally represented as a 2D array. For transforming that representation into a 3D canvas, I wrote this function:
+
+<br />
+```typescript
+  function transformPieces(pieces: Piece[], board: TBoard): Piece3DExtended[] {
+        let whiteFlatstoneCount = 0;
+        let blackFlatstoneCount = 0;
+        let whiteCapstoneCount = 0;
+        let blackCapstoneCount = 0;
+        const stackHeights: { [key: string]: number } = {};
+
+        return pieces.map((piece: Piece): Piece3DExtended => {
+            const tile = board.find((t) => t.pieces.includes(piece.id));
+            if (tile) {
+                // If the piece is on the board
+                const tileKey = `${tile.position.x},${tile.position.y}`;
+
+                if (!stackHeights[tileKey]) {
+                    stackHeights[tileKey] = 0;
+                }
+
+                const pieceIndex = tile.pieces.indexOf(piece.id);
+                const pieceHeight = tile.pieces.slice(0, pieceIndex).reduce((height, pieceId) => {
+                    const p = pieces.find((p) => p.id === pieceId);
+                    return height + (p ? pieceHeights[p.type] : 0);
+                }, 0);
+
+                return {
+                    ...piece,
+                    position: [tile.position.x, pieceHeight, tile.position.y],
+                    height: pieceHeights[piece.type],
+                    model: getPieceModel(piece),
+                };
+            } else {
+                // If the piece is not on the board, place it in a pile
+                let position: Position3D;
+                let height: number;
+
+                if (piece.type === 'flatstone' || piece.type === 'standingstone') {
+                    if (piece.color === 'white') {
+                        const pileIndex = whiteFlatstoneCount % 3;
+                        position = WHITE_PILES[pileIndex];
+                        height = Math.floor(whiteFlatstoneCount / 3) * pieceHeights['flatstone'];
+                        whiteFlatstoneCount++;
+                    } else {
+                        const pileIndex = blackFlatstoneCount % 3;
+                        position = BLACK_PILES[pileIndex];
+                        height = Math.floor(blackFlatstoneCount / 3) * pieceHeights['flatstone'];
+                        blackFlatstoneCount++;
+                    }
+                } else {
+                    // capstone
+                    if (piece.color === 'white') {
+                        position = WHITE_CAPSTONE_PILE;
+                        height = whiteCapstoneCount * pieceHeights['capstone'];
+                        whiteCapstoneCount++;
+                    } else {
+                        position = BLACK_CAPSTONE_PILE;
+                        height = blackCapstoneCount * pieceHeights['capstone'];
+                        blackCapstoneCount++;
+                    }
+                }
+
+                return {
+                    ...piece,
+                    position: [position[0], position[1] + height, position[2]],
+                    height: pieceHeights[piece.type],
+                    model: getPieceModel(piece),
+                };
+            }
+        });
+    }
+
+```
+
+<br />
+
+
+Deciding what should happen in the server and what in the client was a huge issue.
+I thought it was going to take me less time to pass from a local playable prototype to a multiplayer server side game, but I was mistaken. It took some time.
+
+Checking the game state winning condition between each move is difficult. There are several ways a game can end. 
+We also have to take into consideration that we need to check for a win not when a round is over, but each time a piece has been moved.
+There's even the specific case where a piece creates a bridge for each player.
+<br />
+```typescript
+
+const checkGameOver = (gameState: ServerGameState): ServerGameState => {
+  const updatedGameState = { ...gameState };
+
+  // Check roads for both players
+  const currentPlayerRoad = checkRoadWin(
+    updatedGameState.tiles,
+    updatedGameState.currentPlayer as PieceColor,
+    updatedGameState.pieces
+  );
+  const otherPlayer = updatedGameState.currentPlayer === 'white' ? 'black' : 'white';
+  const otherPlayerRoad = checkRoadWin(
+    updatedGameState.tiles,
+    otherPlayer,
+    updatedGameState.pieces
+  );
+
+  // If the current player has a road, they win regardless of the other player's road
+  if (currentPlayerRoad) {
+    updatedGameState.winner = updatedGameState.currentPlayer;
+    updatedGameState.gameOver = true;
+    return updatedGameState;
+  }
+
+  // If only the other player has a road, they win
+  if (otherPlayerRoad) {
+    updatedGameState.winner = otherPlayer;
+    updatedGameState.gameOver = true;
+    return updatedGameState;
+  }
+
+  // Check empty tiles and selectable pieces
+  const boardFull = isBoardFull(updatedGameState.tiles);
+  const playerWithNoPieces = isAnyPlayerWithoutPieces(
+    updatedGameState.pieces,
+    updatedGameState.tiles
+  );
+
+  if (boardFull || playerWithNoPieces) {
+    const whiteFlatstones = getFlatstones(
+      updatedGameState.tiles,
+      'white',
+      updatedGameState.pieces
+    );
+    const blackFlatstones = getFlatstones(
+      updatedGameState.tiles,
+      'black',
+      updatedGameState.pieces
+    );
+
+    // Win based on flatstones number
+    if (whiteFlatstones > blackFlatstones) {
+      updatedGameState.winner = 'white';
+    } else if (whiteFlatstones < blackFlatstones) {
+      updatedGameState.winner = 'black';
+    } else {
+      updatedGameState.winner = 'tie';
+    }
+
+    updatedGameState.gameOver = true;
+  }
+
+  return updatedGameState;
+};
+```
+<br />
+## Conclusion
+---
+<br />
+
+When I started programming this project, I didn't know how to play the game. After trying it, I think it's a relaxing game with surprising depth.
