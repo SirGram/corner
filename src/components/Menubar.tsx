@@ -41,6 +41,7 @@ type SettingsMenuProps = {
   language: Language;
   changeLanguage: (language: Language) => void;
   navigate: (path: string) => void;
+  isScrolledToBottom: boolean;
 };
 
 const SettingsMenu = ({
@@ -51,6 +52,7 @@ const SettingsMenu = ({
   language,
   changeLanguage,
   navigate,
+  isScrolledToBottom,
 }: SettingsMenuProps) => {
   const stopPropagation = (e: React.MouseEvent | React.ChangeEvent) => {
     e.stopPropagation();
@@ -58,10 +60,12 @@ const SettingsMenu = ({
 
   return (
     <div
-      className={`absolute left-0 right-0 mt-2 p-4 bg-base-100 dark:bg-darkBase-100 rounded-base border-base border-border dark:border-darkBorder transition-all duration-300 ease-in-out ${
+      className={`absolute ${
+        isScrolledToBottom ? 'bottom-full mb-16' : 'top-full mt-2'
+      } left-0 right-0 p-4 bg-base-100 dark:bg-darkBase-100 rounded-base border-base border-border dark:border-darkBorder transition-all duration-300 ease-in-out ${
         isExtended
           ? "opacity-100 translate-y-0"
-          : "opacity-0 translate-y-5 pointer-events-none"
+          : `opacity-0 ${isScrolledToBottom ? 'translate-y-2' : '-translate-y-2'} pointer-events-none`
       }`}
       onClick={stopPropagation}
     >
@@ -128,6 +132,20 @@ export default function Menubar() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
+  const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
+
+  const checkScrollPosition = useCallback(() => {
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const bodyHeight = document.body.offsetHeight;
+    setIsScrolledToBottom(scrollPosition - bodyHeight > 0);
+    console.log(scrollPosition - bodyHeight);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", checkScrollPosition);
+    return () => window.removeEventListener("scroll", checkScrollPosition);
+  }, [checkScrollPosition]);
+
   const handleNavigation = useCallback(
     (id: string, index: number) => {
       const navigateAndScroll = () => {
@@ -173,7 +191,13 @@ export default function Menubar() {
   }, []);
 
   return (
-    <nav className="fixed top-2 flex justify-center w-full items-start text-lg z-30">
+    <nav
+    className={`fixed transition-all duration-300 ease-in-out w-full flex justify-center items-start text-lg z-30 ${
+      isScrolledToBottom
+        ? "lg:top-[calc(100%-10rem)] top-[calc(100%-16rem)]" 
+        : "top-2"
+    }`}
+  >
       <div className="flex flex-col items-center">
         <div className="flex items-center">
           <div
@@ -218,6 +242,7 @@ export default function Menubar() {
             language={language}
             changeLanguage={changeLanguage}
             navigate={navigate}
+            isScrolledToBottom={isScrolledToBottom}
           />
         </div>
       </div>
