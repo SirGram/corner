@@ -4,17 +4,17 @@ import { ColorPalette } from "../pages/Blog";
 
 ---
 
-<br/>
+<br />
 
 > The initial challenge was to fetch comic information from the Marvel API and display it in a responsive way.
 > The project wasn't initially done in NextJs, but I decided to migrate to it because I needed a backend for fetching the data in a simple way.
 
-<br/>
+<br />
 ## Style
 
 ---
 
-<br/>
+<br />
 
 I went for a neobrutalistic kind of style. It blends nicely with the aesthetic of the old retro comics. I used a small UI component library called [NBRTLSM](https://www.neobrutalism.dev/) that has nice predefined borders with transition effects. The color palette is also retro with no room for greys.
 
@@ -26,7 +26,7 @@ I went for a neobrutalistic kind of style. It blends nicely with the aesthetic o
 
 ---
 
-<br/>
+<br />
 
 This component allows us to move through a comic array and display its content in a responsive way with two buttons because of its dynamic width.
 We also detect whether the buttons should be disabled if we can scroll more to the left or to the right.
@@ -116,4 +116,3 @@ export default function ScrollCards({
 > The app router is a bit confusing at first, especially how you input the parameters.
 
 
-```

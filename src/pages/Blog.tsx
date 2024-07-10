@@ -77,15 +77,17 @@ export function ColorPalette({ colors }: ColorPaletteProps) {
   );
 }
 
+
+
 export default function Blog() {
   const { id } = useParams<{ id: string }>();
   const project: Project | undefined = projects.find(
     (project) => project.id === id
   );
 
-  console.log(project)
+  console.log(project);
 
-  const {language} = useGlobalContext()
+  const { language } = useGlobalContext();
   const MDXContent = project?.mdxContent[language];
   type HeadingProps = DetailedHTMLProps<
     HTMLAttributes<HTMLHeadingElement>,
@@ -105,7 +107,6 @@ export default function Blog() {
       const id = props.id || slugify((props.children as string) || "heading");
       return <h3 id={id} {...props} />;
     },
-    ColorPalette: ColorPalette,
   };
 
   const [headings, setHeadings] = useState<Heading[]>([]);
@@ -135,10 +136,11 @@ export default function Blog() {
       codeBlocks.forEach((block) => {
         if (!block.parentNode?.classList.contains("code-wrapper")) {
           const wrapper = document.createElement("div");
-          wrapper.className = "code-wrapper max-h-[20rem] overflow-auto border-base border-border rounded-base ";
+          wrapper.className =
+            "code-wrapper max-h-[20rem] overflow-auto border-base border-border rounded-base ";
           block.parentNode?.insertBefore(wrapper, block);
           wrapper.appendChild(block);
-          
+
           // Remove conflicting classes from the pre element
           block.classList.remove("overflow-auto", "max-h-[20rem]");
           block.classList.add("overflow-visible", "m-0");
@@ -190,8 +192,12 @@ export default function Blog() {
         <div className="border-base border-border rounded-base p-4 ">
           <div className="flex flex-1  w-full mb-6">
             <div className="flex flex-col flex-1 w-full">
-              <h1 className="text-left w-full mb-6">{project.name[language]}</h1>
-              <span className="text-left w-full text-xl">{project.date[language]}</span>
+              <h1 className="text-left w-full mb-6">
+                {project.name[language]}
+              </h1>
+              <span className="text-left w-full text-xl">
+                {project.date[language]}
+              </span>
             </div>
             <div>
               <div className="flex flex-col h-full  justify-between ">
@@ -200,7 +206,7 @@ export default function Blog() {
               </div>
             </div>
           </div>
-          { project.src && <VideoPreview src={project.src} preview={false} /> }
+          {project.src && <VideoPreview src={project.src} preview={false} />}
           <div className="flex flex-wrap gap-4 mt-4">
             {project.technologies.sort().map((tech, index) => (
               <div key={index} className="flex items-center gap-2" title={tech}>

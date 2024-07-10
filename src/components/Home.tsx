@@ -15,7 +15,7 @@ const DominoPiece: React.FC<DominoPieceProps> = ({
   index,
   isFlipped,
   onFlip,
-  resetFlippedStates
+  resetFlippedStates,
 }) => {
   const [dots, setDots] = useState(getRandomDots());
   const [isShaking, setIsShaking] = useState(false);
@@ -28,7 +28,7 @@ const DominoPiece: React.FC<DominoPieceProps> = ({
         resetFlippedStates();
         setDots(getRandomDots());
       }, 500);
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(shakeInterval);
   }, [resetFlippedStates]);
@@ -56,7 +56,7 @@ const DominoPiece: React.FC<DominoPieceProps> = ({
                   ${isFlipped ? "bg-black text-white" : "text-black"}`}
       onClick={onFlip}
       style={{
-        animationDelay: `${index * 400}ms`,
+        animationDelay: `${index * 2000}ms`,
         transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
         animation: isShaking ? "shake 0.5s infinite" : "none",
       }}
