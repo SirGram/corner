@@ -3,6 +3,7 @@ import { Project } from "../types/types";
 import comicVideo from "../assets/videos/comicstore.mp4";
 import jgraderVideo from "../assets/videos/jgrader.mp4";
 import takVideo from "../assets/videos/tak.mp4";
+import myBlogVideo from "../assets/videos/myblog.mp4";
 
 import comicStoreMDX_EN from "./comicstore_en.mdx";
 import comicStoreMDX_ES from "./comicstore_es.mdx";
@@ -92,7 +93,8 @@ export const projects: Project[] = [
       en: "Create and download a CV editing input fields using ReactPDF library.",
       es: "Crea y descarga un CV editando inputs usando la librería ReactPDF.",
     },
-    codeURL: "https://github.com/SirGram/theodinproject/tree/main/react/cv-application",
+    codeURL:
+      "https://github.com/SirGram/theodinproject/tree/main/react/cv-application",
     previewURL:
       "https://sirgram.github.io/theodinproject/react/cv-application/",
     technologies: ["javascript", "react", "vite"],
@@ -112,7 +114,8 @@ export const projects: Project[] = [
       en: "A tictactoe game with player selection. 4x4x3 board.",
       es: "Un juego de tictactoe con selección de jugador. Tablero de 4x4x3.",
     },
-    codeURL: "https://github.com/SirGram/theodinproject/tree/main/docs/javascript/tictactoe",
+    codeURL:
+      "https://github.com/SirGram/theodinproject/tree/main/docs/javascript/tictactoe",
     previewURL:
       "https://sirgram.github.io/theodinproject/javascript/tictactoe/",
     technologies: ["javascript", "css", "html"],
@@ -132,7 +135,8 @@ export const projects: Project[] = [
       en: "A small implementation of breadth first search algorithm in Vanilla JavaScript.",
       es: "Una pequeña implementación del algoritmo breadth first search en Vanilla JavaScript.",
     },
-    codeURL: "https://github.com/SirGram/theodinproject/tree/main/docs/javascript/knight%20travails",
+    codeURL:
+      "https://github.com/SirGram/theodinproject/tree/main/docs/javascript/knight%20travails",
     previewURL:
       "https://sirgram.github.io/theodinproject/javascript/knight%20travails/",
     technologies: ["javascript", "css", "html"],
@@ -152,9 +156,9 @@ export const projects: Project[] = [
       en: "A book library cover manager with some metadata.",
       es: "Un gestor de portadas de libros con algunos metadatos.",
     },
-    codeURL: "https://github.com/SirGram/theodinproject/tree/main/docs/javascript/library",
-    previewURL:
-      "https://sirgram.github.io/theodinproject/javascript/library/",
+    codeURL:
+      "https://github.com/SirGram/theodinproject/tree/main/docs/javascript/library",
+    previewURL: "https://sirgram.github.io/theodinproject/javascript/library/",
     technologies: ["javascript", "css", "html"],
     archive: true,
   },
@@ -173,13 +177,47 @@ export const projects: Project[] = [
       es: "Juego de mesa multiplayer con react 3 fiber. Utiliza socket.io para interacciones en tiempo real entre jugadores.",
     },
     codeURL: "https://github.com/SirGram/tak",
-    previewURL:
-      "https://tak.fly.dev/",
-    technologies: ["typescript", "tailwind", "react", 'socketio', 'express', 'vite', 'blender'],
+    previewURL: "https://tak.fly.dev/",
+    technologies: [
+      "typescript",
+      "tailwind",
+      "react",
+      "socketio",
+      "express",
+      "vite",
+      "blender",
+    ],
     src: takVideo,
     mdxContent: {
       en: takMDX_EN,
       es: takMDX_ES,
     },
+  },
+  {
+    id: "9",
+    date: {
+      en: "May 2024",
+      es: "Mayo 2024",
+    },
+    name: {
+      en: "MyBlog",
+      es: "MyBlog",
+    },
+    description: {
+      en: "A blog website built with Nest.js and Vite. Users can see posts and comments. Users with the admin role can create, edit, and delete posts as well as delete comments and create other admin users. Blogs are made in Markdown and can be edited in the admin panel.",
+      es: " Un sitio web de blog construido con Nest.js y Vite. Los usuarios pueden ver posts y comentarios. Los usuarios con el rol de administrador pueden crear, editar y eliminar posts así como eliminar comentarios y crear otros usuarios administradores. Los blogs se crean en Markdown y se pueden editar en el panel de administración.",
+    },
+    codeURL: "https://github.com/SirGram/myblog",
+    previewURL: "https://my-blog-1.fly.dev/",
+    technologies: [
+      "nestjs",
+      "tailwind",
+      "typescript",
+      "react",
+      "vite",
+      "swagger",
+      "mongodb",
+    ],
+    src: myBlogVideo,
   },
 ];

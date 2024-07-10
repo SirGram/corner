@@ -1,3 +1,5 @@
+import Img0 from "../assets/images/tak.png";
+
 ## The game of Tak
 
 ---
@@ -14,17 +16,17 @@ During a turn, you select a stack of pieces you 'own' and move them in a directi
 ---
 
 <br />
--Local and multiplayer 
+-Local and multiplayer{" "}
 
--Message system 
+-Message system
 
--History of moves 
+-History of moves
 
 -Lobby and rooms
 
--Sound effects 
+-Sound effects
 
--2D board representation 
+-2D board representation
 
 -Updates in real time
 
@@ -34,10 +36,19 @@ During a turn, you select a stack of pieces you 'own' and move them in a directi
 
 ---
 
-<br />
-I used Blender for modelling the game pieces and board and creating some textures.
+<br />I used Blender for modelling the game pieces and board and creating some
+textures.
 
- For the UI, I went with my preferred Component Library ShadCN.
+For the UI, I went with my preferred Component Library ShadCN.
+
+<br />
+
+<img
+  src={Img0}
+  alt="Tak Pieces Blender"
+  className="rounded-base overflow-hidden border-base border-border"
+/>
+
 <br />
 ## Challenges
 
@@ -118,7 +129,7 @@ A board is normally represented as a 2D array. For transforming that representat
         });
     }
 
-```
+````
 
 <br />
 
@@ -126,7 +137,7 @@ A board is normally represented as a 2D array. For transforming that representat
 Deciding what should happen in the server and what in the client was a huge issue.
 I thought it was going to take me less time to pass from a local playable prototype to a multiplayer server side game, but I was mistaken. It took some time.
 
-Checking the game state winning condition between each move is difficult. There are several ways a game can end. 
+Checking the game state winning condition between each move is difficult. There are several ways a game can end.
 We also have to take into consideration that we need to check for a win not when a round is over, but each time a piece has been moved.
 There's even the specific case where a piece creates a bridge for each player.
 <br />
@@ -195,9 +206,10 @@ const checkGameOver = (gameState: ServerGameState): ServerGameState => {
 
   return updatedGameState;
 };
-```
+````
+
 <br />
-## Conclusion
+## Conclusion 
 ---
 <br />
 

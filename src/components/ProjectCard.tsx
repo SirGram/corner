@@ -17,19 +17,20 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     <article
       className={`flex flex-col ${
         project.src ? "lg:flex-row" : ""
-      } w-full h-fit justify-between items-center border-base border-border rounded-base gap-10 p-4`}
+      } w-full h-fit justify-between items-center border-base border-border rounded-base gap-10 p-4 `}
     >
       <div
-        className={`relative flex flex-1   flex-col ${
+        className={`flex flex-1 h-full   flex-col ${
           project.src ? "lg:w-1/2" : "w-full"
-        } justify-between   `}
+        }   `}
       >
-        <div className="">
+        <div className="flex flex-col flex-1">
           <div className="flex justify-between  items-start w-full">
             <div className="flex flex-col ">
-
-            <h1 className="text-5xl mb-2">{project.name[language]}</h1>
-            <h5 className="ml-1 mb-4 text-base-300 dark:text-darkBase-300">{project.date[language]}</h5>
+              <h1 className="text-5xl mb-2">{project.name[language]}</h1>
+              <h5 className="ml-1 mb-4 text-base-300 dark:text-darkBase-300">
+                {project.date[language]}
+              </h5>
             </div>
             <div className="flex flex-wrap gap-2 border-base border-border p-2 rounded-base w-fit">
               {sortedTechnologies.map((tech, index) => (
@@ -43,7 +44,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               ))}
             </div>
           </div>
-          <p className="mx-2 pb-2 text-justify">{project.description[language]}</p>
+          <p className="mx-2 pb-2 text-justify">
+            {project.description[language]}
+          </p>
         </div>
 
         <div className="flex flex-col gap-2">
