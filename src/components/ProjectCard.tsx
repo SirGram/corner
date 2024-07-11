@@ -17,7 +17,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     <article
       className={`flex flex-col ${
         project.src ? "lg:flex-row" : ""
-      } w-full h-fit justify-between items-center border-base border-border rounded-base gap-10 p-4 `}
+      } w-full h-fit justify-between items-center border-base dark:border-darkBorder border-border rounded-base gap-10 p-4 `}
     >
       <div
         className={`flex flex-1 h-full   flex-col ${
@@ -32,7 +32,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 {project.date[language]}
               </h5>
             </div>
-            <div className="flex flex-wrap gap-2 border-base border-border p-2 rounded-base w-fit">
+            <div className="flex flex-wrap gap-2 border-base dark:border-darkBorder border-border p-2 rounded-base w-fit">
               {sortedTechnologies.map((tech, index) => (
                 <div
                   key={index}
