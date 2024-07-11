@@ -5,22 +5,19 @@ import Img0 from "../assets/images/tak.png";
 ---
 
 <br />
-Tak es un juego de mesa similar a chess con 2 jugadores donde puedes mover varias piezas durante un turno mientras intentas crear puentes entre lados.
+Tak es un juego de mesa similar a chess con 2 jugadores donde puedes mover varias
+piezas durante un turno mientras intentas crear puentes entre lados.
 
 En cada turno, se selecciona una pila de piezas que posees y se mueven en una dirección mientras deja al menos una en cada casilla.
+
 <br />
 ## Características
 
 ---
 
-<br />
-- Local y multijugador
-- Sistema de mensajes
-- Historial de movimientos
-- Lobby y salas
-- Efectos de sonido
-- Representación de tablero 2D
-- Actualizaciones en tiempo real
+<br />- Local y multijugador - Sistema de mensajes - Historial de movimientos -
+Lobby y salas - Efectos de sonido - Representación de tablero 2D -
+Actualizaciones en tiempo real
 
 <br />
 
@@ -34,14 +31,19 @@ Para la interfaz, escogí mi librería de componentes preferida, ShadCN.
 
 <br />
 
-<img src={Img0} alt="Tak Pieces Blender" className="rounded-base overflow-hidden border-base border-border" />
+<img
+  src={Img0}
+  alt="Tak Pieces Blender"
+  className="rounded-base overflow-hidden border-base dark:border-darkBorder border-border"
+/>
 <br />
 ## Desafíos
 
 ---
 
 <br />
-Un tablero normalmente se representa como una matriz 2D. Para transformar esa representación en un tablero 3D, escribí esta función:
+Un tablero normalmente se representa como una matriz 2D. Para transformar esa representación
+en un tablero 3D, escribí esta función:
 
 <br />
 ```typescript
@@ -114,7 +116,7 @@ Un tablero normalmente se representa como una matriz 2D. Para transformar esa re
         });
     }
 
-```
+````
 
 <br />
 
@@ -192,10 +194,12 @@ const checkGameOver = (gameState: ServerGameState): ServerGameState => {
 
   return updatedGameState;
 };
-```
+````
 
 ## Conclusión
+
 ---
 
 <br />
-Cuando comencé a programar este proyecto, no sabía cómo jugar al juego. Después de intentar, es un juego relajante con profundidad sorprendente.
+Cuando comencé a programar este proyecto, no sabía cómo jugar al juego. Después de
+intentar, es un juego relajante con profundidad sorprendente.

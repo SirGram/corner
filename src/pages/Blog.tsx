@@ -63,7 +63,7 @@ interface ColorPaletteProps {
 
 export function ColorPalette({ colors }: ColorPaletteProps) {
   return (
-    <div className="flex flex-wrap gap-4 my-4 w-fit mx-auto p-2 justify-center border-border border-base rounded-base">
+    <div className="flex flex-wrap gap-4 my-4 w-fit mx-auto p-2 justify-center border-border border-base dark:border-darkBorder rounded-base">
       {colors.map((color, index) => (
         <div key={index} className="flex flex-col items-center">
           <div
@@ -76,8 +76,6 @@ export function ColorPalette({ colors }: ColorPaletteProps) {
     </div>
   );
 }
-
-
 
 export default function Blog() {
   const { id } = useParams<{ id: string }>();
@@ -137,7 +135,7 @@ export default function Blog() {
         if (!block.parentNode?.classList.contains("code-wrapper")) {
           const wrapper = document.createElement("div");
           wrapper.className =
-            "code-wrapper max-h-[20rem] overflow-auto border-base border-border rounded-base ";
+            "code-wrapper max-h-[20rem] overflow-auto border-base dark:border-darkBorder border-border rounded-base ";
           block.parentNode?.insertBefore(wrapper, block);
           wrapper.appendChild(block);
 
@@ -175,11 +173,12 @@ export default function Blog() {
               >
                 <a
                   href={`#${heading.id}`}
-                  className={
+                  className={`block p-1 rounded-md transition-all duration-200 ${
                     activeId === heading.id
-                      ? "text-primary dark:text-darkPrimary"
-                      : "text-current hover:text-primary dark:hover:text-darkPrimary "
-                  }
+                      ? "text-primary dark:text-darkPrimary border-base border-border dark:border-darkBorder"
+                      : "text-current hover:text-primary dark:hover:text-darkPrimary border-base border-transparent"
+                  }`}
+                  style={{ margin: "4px 0" }}
                 >
                   {heading.text}
                 </a>
@@ -189,7 +188,7 @@ export default function Blog() {
         </nav>
       </aside>
       <section className="h-full w-full max-w-[50rem] mx-auto flex flex-col justify-center items-center">
-        <div className="border-base border-border rounded-base p-4 ">
+        <div className="border-base dark:border-darkBorder border-border rounded-base p-4 ">
           <div className="flex flex-1  w-full mb-6">
             <div className="flex flex-col flex-1 w-full">
               <h1 className="text-left w-full mb-6">

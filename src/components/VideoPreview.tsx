@@ -42,7 +42,7 @@ const VideoPreview = ({
     const { left, top } = currentTarget.getBoundingClientRect();
     const mouseX = clientX - left;
     const mouseY = clientY - top;
-    const gradient = `radial-gradient(circle at ${mouseX}px ${mouseY}px, #6fe5ffa9, #010103ff)`;
+    const gradient = `radial-gradient(circle at ${mouseX}px ${mouseY}px, transparent,black, black )`;
     setGradientStyle(gradient);
   };
 
@@ -61,7 +61,7 @@ const VideoPreview = ({
           loop
           muted
           playsInline
-          className="border-border rounded-base border-base w-full h-fit"
+          className="border-border rounded-base border-base dark:border-darkBorder w-full h-fit"
         />
       ) : (
         <video
@@ -73,7 +73,7 @@ const VideoPreview = ({
           loop
           muted
           playsInline
-          className="border-border rounded-base border-base w-full h-fit"
+          className="border-border rounded-base border-base dark:border-darkBorder w-full h-fit"
         />
       )}
       {preview && (

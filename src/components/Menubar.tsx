@@ -4,11 +4,22 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useGlobalContext } from "../context/GlobalContext";
 import { Language, Theme } from "../types/types";
 import ReactCountryFlag from "react-country-flag";
+import language from "react-syntax-highlighter/dist/esm/languages/hljs/1c";
 
 const MENU_ITEMS = [
-  { id: "home", icon: FaHome, label: "Home" },
-  { id: "projects", icon: FaProjectDiagram, label: "Projects" },
-  { id: "about", icon: FaInfoCircle, label: "About" },
+  { id: "home", icon: FaHome, labelEn: "Home", labelEs: "Inicio" },
+  {
+    id: "projects",
+    icon: FaProjectDiagram,
+    labelEn: "Projects",
+    labelEs: "Proyectos",
+  },
+  {
+    id: "contact",
+    icon: FaInfoCircle,
+    labelEn: "Contact",
+    labelEs: "Contacto",
+  },
 ];
 
 const useClickOutside = (
@@ -61,11 +72,13 @@ const SettingsMenu = ({
   return (
     <div
       className={`absolute ${
-        isScrolledToBottom ? 'bottom-full mb-16' : 'top-full mt-2'
+        isScrolledToBottom ? "bottom-full mb-16" : "top-full mt-2"
       } left-0 right-0 p-4 bg-base-100 dark:bg-darkBase-100 rounded-base border-base border-border dark:border-darkBorder transition-all duration-300 ease-in-out ${
         isExtended
           ? "opacity-100 translate-y-0"
-          : `opacity-0 ${isScrolledToBottom ? 'translate-y-2' : '-translate-y-2'} pointer-events-none`
+          : `opacity-0 ${
+              isScrolledToBottom ? "translate-y-2" : "-translate-y-2"
+            } pointer-events-none`
       }`}
       onClick={stopPropagation}
     >
@@ -108,7 +121,7 @@ const SettingsMenu = ({
           }}
           className="p-2 w-full bg-base-200 hover:bg-base-300 dark:bg-darkBase-200 dark:hover:bg-darkBase-300 rounded-base"
         >
-          Archive
+          {language === "en" ? "Archive" : "Archivo"}
         </button>
       </div>
     </div>
@@ -120,7 +133,7 @@ export default function Menubar() {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { setTheme, theme, language, changeLanguage } = useGlobalContext();
+  const { setTheme, theme, language, setLanguage } = useGlobalContext();
 
   const [isExtended, setIsExtended] = useState(false);
   const menubarRef = useRef<HTMLDivElement>(null);
@@ -138,7 +151,6 @@ export default function Menubar() {
     const scrollPosition = window.innerHeight + window.scrollY;
     const bodyHeight = document.body.offsetHeight;
     setIsScrolledToBottom(scrollPosition - bodyHeight > 0);
-    console.log(scrollPosition - bodyHeight);
   }, []);
 
   useEffect(() => {
@@ -192,12 +204,12 @@ export default function Menubar() {
 
   return (
     <nav
-    className={`fixed transition-all duration-300 ease-in-out w-full flex justify-center items-start text-lg z-30 ${
-      isScrolledToBottom
-        ? "lg:top-[calc(100%-10rem)] top-[calc(100%-16rem)]" 
-        : "top-2"
-    }`}
-  >
+      className={`fixed transition-all duration-300 ease-in-out w-full flex justify-center items-start text-lg z-30 ${
+        isScrolledToBottom
+          ? "md:top-[calc(100%-10rem)] top-[calc(100%-16rem)]"
+          : "top-2"
+      }`}
+    >
       <div className="flex flex-col items-center">
         <div className="flex items-center">
           <div
@@ -221,7 +233,9 @@ export default function Menubar() {
                 onMouseLeave={() => setHoverIndex(null)}
               >
                 <item.icon className="md:hidden" />
-                <span className="hidden md:block">{item.label}</span>
+                <span className="hidden md:block">
+                  {language === "en" ? item.labelEn : item.labelEs}
+                </span>
               </a>
             ))}
           </div>
@@ -240,7 +254,7 @@ export default function Menubar() {
             theme={theme}
             setTheme={setTheme}
             language={language}
-            changeLanguage={changeLanguage}
+            changeLanguage={setLanguage}
             navigate={navigate}
             isScrolledToBottom={isScrolledToBottom}
           />

@@ -11,6 +11,8 @@ import jgraderMDX_EN from "./jgrader_en.mdx";
 import jgraderMDX_ES from "./jgrader_es.mdx";
 import takMDX_EN from "./tak_en.mdx";
 import takMDX_ES from "./tak_es.mdx";
+import myBlogMDX_EN from "./myblog_en.mdx";
+import myBlogMDX_ES from "./myblog_es.mdx";
 
 export const projects: Project[] = [
   {
@@ -208,7 +210,7 @@ export const projects: Project[] = [
       es: " Un sitio web de blog construido con Nest.js y Vite. Los usuarios pueden ver posts y comentarios. Los usuarios con el rol de administrador pueden crear, editar y eliminar posts así como eliminar comentarios y crear otros usuarios administradores. Los blogs se crean en Markdown y se pueden editar en el panel de administración.",
     },
     codeURL: "https://github.com/SirGram/myblog",
-    previewURL: "https://my-blog-1.fly.dev/",
+    previewURL: "https://my-blog1.fly.dev/",
     technologies: [
       "nestjs",
       "tailwind",
@@ -219,5 +221,9 @@ export const projects: Project[] = [
       "mongodb",
     ],
     src: myBlogVideo,
+    mdxContent: {
+      en: myBlogMDX_EN,
+      es: myBlogMDX_ES,
+    },
   },
 ];
