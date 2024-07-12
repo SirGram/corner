@@ -165,6 +165,7 @@ export default function Menubar() {
       const navigateAndScroll = () => {
         setActiveIndex(index);
         scrollToSection(id);
+        window.history.pushState(null, "", `#${id}`);
       };
 
       if (location.pathname !== "/") {
@@ -178,10 +179,15 @@ export default function Menubar() {
   );
 
   useEffect(() => {
-    const hash = location.hash.replace("#", "");
-    const index = MENU_ITEMS.findIndex((item) => item.id === hash);
-    if (index !== -1) setActiveIndex(index);
-  }, [location]);
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace("#", "");
+      const index = MENU_ITEMS.findIndex((item) => item.id === hash);
+      if (index !== -1) setActiveIndex(index);
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   const settingsMenuRef = useRef<HTMLDivElement>(null);
 
@@ -203,13 +209,48 @@ export default function Menubar() {
     setIsExtended((prevState) => !prevState);
     setTimeout(() => setIsSpinning(false), 500);
   }, []);
+  const getCurrentSection = useCallback(() => {
+    const sections = MENU_ITEMS.map((item) => document.getElementById(item.id));
+    let currentSectionIndex = 0;
+
+    const isAtBottom =
+      window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 1;
+
+    if (isAtBottom) {
+      // If we're at the bottom, set the index to the last section
+      return sections.length - 1;
+    }
+
+    for (let i = sections.length - 1; i >= 0; i--) {
+      const section = sections[i];
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= window.innerHeight / 2) {
+          currentSectionIndex = i;
+          break;
+        }
+      }
+    }
+
+    return currentSectionIndex;
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentSectionIndex = getCurrentSection();
+      setActiveIndex(currentSectionIndex);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [getCurrentSection]);
 
   return (
     <nav
       className={`fixed transition-all duration-300 ease-in-out  flex justify-center  w-fit mx-auto left-0 right-0 items-start text-lg  z-50  ${
         isScrolledToBottom
           ? "md:top-[calc(100%-10rem)] top-[calc(100%-16rem)]"
-          : "top-2"
+          : "top-4"
       }`}
     >
       <div className="flex flex-col items-center ">
