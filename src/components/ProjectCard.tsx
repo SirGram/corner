@@ -25,7 +25,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         }   `}
       >
         <div className="flex flex-col flex-1">
-          <div className="flex justify-between  items-start w-full">
+          <div className="flex justify-between  items-start w-full gap-2">
             <div className="flex flex-col ">
               <h1 className="text-5xl mb-2">{project.name[language]}</h1>
               <h5 className="ml-1 mb-4 text-base-300 dark:text-darkBase-300">

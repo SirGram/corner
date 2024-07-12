@@ -48,8 +48,8 @@ export default function Projects() {
   const buttonText = language === "en" ? "Old projects" : "Otros proyectos";
 
   return (
-    <div className="flex flex-col gap-4 p-10">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-10">
+    <div className="flex flex-col gap-4 p-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:p-10">
         {projects
           .filter((project) => !project.archive)
           .sort((a, b) => {
@@ -61,6 +61,7 @@ export default function Projects() {
             // Create a ref and isIntersecting state for each ProjectCard
             const [ref, isIntersecting] = useIntersectionObserver({
               threshold: 0.1,
+
               triggerOnce: true,
             });
 
@@ -79,9 +80,10 @@ export default function Projects() {
                   project.src ? "lg:col-span-2" : ""
                 } transition-all duration-1000 transform ${
                   hasAppeared.includes(index)
-                    ? "translate-x-0 opacity-100"
-                    : "-translate-x-full opacity-0"
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-20 opacity-0"
                 }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <ProjectCard project={project} />
               </div>

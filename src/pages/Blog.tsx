@@ -86,7 +86,7 @@ export default function Blog() {
   console.log(project);
 
   const { language } = useGlobalContext();
-  const MDXContent = project?.mdxContent[language];
+  const MDXContent = project?.mdxContent?.[language];
   type HeadingProps = DetailedHTMLProps<
     HTMLAttributes<HTMLHeadingElement>,
     HTMLHeadingElement
@@ -132,11 +132,12 @@ export default function Blog() {
       // code block overflow
       const codeBlocks = document.querySelectorAll("pre code");
       codeBlocks.forEach((block) => {
-        if (!block.parentNode?.classList.contains("code-wrapper")) {
+        const parentNode = block.parentNode as Element;
+        if (parentNode && !parentNode.classList.contains("code-wrapper")) {
           const wrapper = document.createElement("div");
           wrapper.className =
-            "code-wrapper max-h-[20rem] overflow-auto border-base dark:border-darkBorder border-border rounded-base ";
-          block.parentNode?.insertBefore(wrapper, block);
+            "code-wrapper max-h-[20rem] overflow-auto border-base dark:border-darkBorder border-border rounded-base";
+          parentNode.insertBefore(wrapper, block);
           wrapper.appendChild(block);
 
           // Remove conflicting classes from the pre element
@@ -187,8 +188,8 @@ export default function Blog() {
           </ul>
         </nav>
       </aside>
-      <section className="h-full w-full max-w-[50rem] mx-auto flex flex-col justify-center items-center">
-        <div className="border-base dark:border-darkBorder border-border rounded-base p-4 ">
+      <section className="h-full w-full  max-w-[50rem] mx-auto flex flex-col justify-center items-center">
+        <div className="border-base dark:border-darkBorder border-border rounded-base p-4 m-2 ">
           <div className="flex flex-1  w-full mb-6">
             <div className="flex flex-col flex-1 w-full">
               <h1 className="text-left w-full mb-6">
@@ -216,7 +217,7 @@ export default function Blog() {
           </div>
         </div>
 
-        <article className="max-w-[50rem] p-4">
+        <article className=" p-4 flex flex-col gap-2  w-full">
           {MDXContent && (
             <MDXProvider components={components}>
               <MDXContent />

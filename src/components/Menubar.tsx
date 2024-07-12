@@ -4,7 +4,6 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useGlobalContext } from "../context/GlobalContext";
 import { Language, Theme } from "../types/types";
 import ReactCountryFlag from "react-country-flag";
-import language from "react-syntax-highlighter/dist/esm/languages/hljs/1c";
 
 const MENU_ITEMS = [
   { id: "home", icon: FaHome, labelEn: "Home", labelEs: "Inicio" },
@@ -92,8 +91,11 @@ const SettingsMenu = ({
           }}
           className="p-2 w-full bg-base-200 hover:bg-base-300 dark:bg-darkBase-200 dark:hover:bg-darkBase-300 rounded-base"
         >
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
+          <option value="light">
+            {" "}
+            {language === "en" ? "Light" : "Claro"}
+          </option>
+          <option value="dark"> {language === "en" ? "Dark" : "Oscuro"}</option>
         </select>
         <div className="relative inline-block w-full">
           <select
@@ -204,20 +206,20 @@ export default function Menubar() {
 
   return (
     <nav
-      className={`fixed transition-all duration-300 ease-in-out w-full flex justify-center items-start text-lg z-30 ${
+      className={`fixed transition-all duration-300 ease-in-out  flex justify-center  w-fit mx-auto left-0 right-0 items-start text-lg  z-50  ${
         isScrolledToBottom
           ? "md:top-[calc(100%-10rem)] top-[calc(100%-16rem)]"
           : "top-2"
       }`}
     >
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center ">
         <div className="flex items-center">
           <div
             ref={menubarRef}
             className="flex gap-3 px-1 bg-base-100 dark:bg-darkBase-100 rounded-base border-base border-border dark:border-darkBorder bg-base relative overflow-hidden"
           >
             <div
-              className="absolute bg-base-200 dark:bg-darkBase-200 transition-all duration-300 ease-out rounded-base h-full"
+              className="absolute bg-base-200 dark:bg-darkBase-200 transition-all duration-300 ease-out rounded-base  w-full"
               style={getBackgroundStyle()}
             />
             {MENU_ITEMS.map((item, index) => (
@@ -228,12 +230,12 @@ export default function Menubar() {
                   e.preventDefault();
                   handleNavigation(item.id, index);
                 }}
-                className={`p-3 hover:no-underline flex items-center gap-2 transition-colors duration-200 relative z-10`}
+                className={`p-3 hover:no-underline flex items-center gap-2 transition-colors duration-200 relative z-10 w-full `}
                 onMouseEnter={() => setHoverIndex(index)}
                 onMouseLeave={() => setHoverIndex(null)}
               >
                 <item.icon className="md:hidden" />
-                <span className="hidden md:block">
+                <span className="hidden md:block ">
                   {language === "en" ? item.labelEn : item.labelEs}
                 </span>
               </a>
