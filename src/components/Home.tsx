@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { technologyIcons } from "./TechIcons";
+import { useGlobalContext } from "../context/GlobalContext";
 
 const DominoPiece: React.FC<{
   icon: React.FC;
@@ -47,6 +48,8 @@ export default function Home() {
 
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
 
+  const { language } = useGlobalContext();
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-base-100 to-base-200 dark:from-darkBase-100 dark:to-darkBase-200 p-8 flex flex-col md:flex-row items-center gap-10 justify-center relative">
       <div className="relative w-[350px] h-[350px] bg-gradient-to-br rounded-full shadow-2xl z-10">
@@ -76,9 +79,16 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <h1 className="text-7xl text-primary dark:text-darkPrimary md:-mt-40">
-        SIRGRAM
-      </h1>
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary  to-secondary dark:from-darkPrimary dark:to-darkSecondary md:-mt-40">
+          SIRGRAM
+        </h1>
+        <span className="text-xl text-end w-full">
+          {language === "en"
+            ? "Web Development student"
+            : "Estudiante de desarrollo web"}
+        </span>
+      </div>
     </div>
   );
 }
