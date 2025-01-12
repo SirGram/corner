@@ -4,6 +4,7 @@ import comicVideo from "../assets/videos/comicstore.mp4";
 import jgraderVideo from "../assets/videos/jgrader.mp4";
 import takVideo from "../assets/videos/tak.mp4";
 import myBlogVideo from "../assets/videos/myblog.mp4";
+import sabiboyVideo from "../assets/videos/sabiboy.mp4";
 
 import comicStoreMDX_EN from "./comicstore_en.mdx";
 import comicStoreMDX_ES from "./comicstore_es.mdx";
@@ -13,6 +14,8 @@ import takMDX_EN from "./tak_en.mdx";
 import takMDX_ES from "./tak_es.mdx";
 import myBlogMDX_EN from "./myblog_en.mdx";
 import myBlogMDX_ES from "./myblog_es.mdx";
+import sabiboyMDX_EN from "./sabiboy_en.mdx";
+import sabiboyMDX_ES from "./sabiboy_es.mdx";
 
 export const projects: Project[] = [
   {
@@ -224,6 +227,38 @@ export const projects: Project[] = [
     mdxContent: {
       en: myBlogMDX_EN,
       es: myBlogMDX_ES,
+    },
+  },
+  {
+    id: "10",
+    date: {
+      en: "January 2025",
+      es: "Enero 2025",
+    },
+    name: {
+      en: "SabiBoy",
+      es: "SabiBoy",
+    },
+    description: {
+      en: "SabiBoy is a Gameboy emulator and library. It allows users to run Gameboy games directly in the browser with features such as game library management, savestates using MongoDB, and customizable settings. The project was developed to explore more about low-level systems programming",
+      es: "SabiBoy es un emulador y una biblioteca de Gameboy. Permite a los usuarios ejecutar juegos de Gameboy directamente en el navegador con características como la gestión de la biblioteca de juegos, estados guardados utilizando MongoDB y configuraciones personalizables. El proyecto fue desarrollado para explorar más sobre la programación a bajo nivel.",
+    },
+    codeURL: "https://github.com/SirGram/sabiboy",
+    previewURL: "https://sabiboy.fly.dev/",
+    technologies: [
+      "rust",
+      "nestjs",
+      "tailwind",
+      "typescript",
+      "react",
+      "vite",
+      "mongodb",
+      "webassembly",
+    ],
+    src: sabiboyVideo,
+    mdxContent: {
+      en: sabiboyMDX_EN,
+      es: sabiboyMDX_ES,
     },
   },
 ];

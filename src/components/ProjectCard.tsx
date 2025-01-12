@@ -17,10 +17,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     <article
       className={`flex flex-col ${
         project.src ? "lg:flex-row" : ""
-      } w-full h-fit justify-between items-center border-base dark:border-darkBorder border-border rounded-base gap-10 p-4 `}
+      } w-full h-full justify-between items-center border-base dark:border-darkBorder border-border rounded-base gap-10 p-4 `}
     >
       <div
-        className={`flex flex-1 h-full   flex-col ${
+        className={`flex flex-1 h-full   flex-col justify-between  ${
           project.src ? "lg:w-1/2" : "w-full"
         }   `}
       >

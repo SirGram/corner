@@ -62,7 +62,6 @@ const SettingsMenu = ({
   language,
   changeLanguage,
   navigate,
-  isScrolledToBottom,
 }: SettingsMenuProps) => {
   const stopPropagation = (e: React.MouseEvent | React.ChangeEvent) => {
     e.stopPropagation();
@@ -70,14 +69,11 @@ const SettingsMenu = ({
 
   return (
     <div
-      className={`absolute ${
-        isScrolledToBottom ? "bottom-full mb-16" : "top-full mt-2"
-      } left-0 right-0 p-4 bg-base-100 dark:bg-darkBase-100 rounded-base border-base border-border dark:border-darkBorder transition-all duration-300 ease-in-out ${
+      className={`absolute bottom-full mb-16
+      left-0 right-0 p-4 bg-base-100 dark:bg-darkBase-100 rounded-base border-base border-border dark:border-darkBorder transition-all duration-300 ease-in-out ${
         isExtended
           ? "opacity-100 translate-y-0"
-          : `opacity-0 ${
-              isScrolledToBottom ? "translate-y-2" : "-translate-y-2"
-            } pointer-events-none`
+          : `opacity-0 "translate-y-2"  pointer-events-none`
       }`}
       onClick={stopPropagation}
     >
@@ -247,11 +243,7 @@ export default function Menubar() {
 
   return (
     <nav
-      className={`fixed transition-all duration-300 ease-in-out  flex justify-center  w-fit mx-auto left-0 right-0 items-start text-lg  z-50  ${
-        isScrolledToBottom
-          ? "md:top-[calc(100%-10rem)] top-[calc(100%-16rem)]"
-          : "top-4"
-      }`}
+      className={`fixed transition-all duration-300 ease-in-out  flex justify-center  w-fit mx-auto left-0 right-0 items-start text-lg  z-50  bottom-4`}
     >
       <div className="flex flex-col items-center ">
         <div className="flex items-center">

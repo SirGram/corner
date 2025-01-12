@@ -1,0 +1,90 @@
+import Img0 from "../assets/images/sabiboy0.png";
+import Img1 from "../assets/images/sabiboy1.png";
+import Img2 from "../assets/images/sabiboy2.png";
+
+import { DevelopmentRoadmap } from "../pages/Blog";
+
+## Why Rust?
+
+---
+
+Well, I had heard of Rust for a while now and I wanted to give it a go. I saw some guy programming his own NES emulator in this language and I was like "Wow, that's cool!".
+As it turns out, programming emulators and low level systems programming is a great application for Rust because of how it handles memory.
+
+<br />
+## The Emulation Journey 
+---
+ The main objective was to create a working emulator
+for the original DMG Gameboy. Before diving in, I studied simpler systems like the
+chip-8 to understand the fundamentals before tackling the more complex Gameboy architecture.
+
+
+<DevelopmentRoadmap steps={ [
+    "Implement a CPU that passes basic tests",
+    "Create a memory system that connects to all components",
+    "Develop the screen display functionality",
+    "Build an input system",
+    "Get basic games running",
+    "Add advanced features (sound, timers, memory bank controllers)",
+    "Port it to run in the browser",
+    "Create an online library system"
+  ]} />
+
+It wasn't long before I found myself being stuck for many days trying to figure out some glitches, especially with the PPU.
+<div className="flex gap-2 h-full items-center">
+<figure className="flex flex-col items-center mb-2 ">
+  <img
+    src={Img1}
+    alt="Tennis ball visualization"
+    className="self-center w-fit rounded-base border border-base dark:border-darkBorder"
+  />
+  <figcaption className="text-center mt-2 text-base-300">
+    My tennis hits are so strong they slice through the ball
+  </figcaption>
+</figure>
+
+<figure className="flex flex-col items-center mb-2">
+  <img
+    src={Img0}
+    alt="Debugging process visualization"
+    className="w-fit rounded-base border border-base dark:border-darkBorder"
+  />
+  <figcaption className="text-center mt-2 text-base-300">
+    My head exploded while fixing this bug
+  </figcaption>
+</figure>
+
+</div>
+<figure className="flex flex-col items-center mb-2">
+  <img
+    src={Img2}
+    alt="Debug window interface"
+    className="w-fit rounded-base border border-base dark:border-darkBorder"
+  />
+  <figcaption className="text-center mt-2 text-base-300">
+    The debugging interface that saved my sanity
+  </figcaption>
+</figure>
+
+<br />
+
+## The Library
+
+---
+
+I wanted to build a server-side library that would allow me to easily access
+the emulator from the browser.
+
+For using the emulator in the browser, I used wasm-bindgen to compile the rust code into a wasm file.
+
+Some of the features I ended up adding:
+
+-A proper game library system where you can add and manage ROMs
+
+-A savestate system that relies on MongoDB
+
+-Customizable settings for the emulator like different color palettes or debug.
+
+-Offline mode for uninvited users
+
+<br />

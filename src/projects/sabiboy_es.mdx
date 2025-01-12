@@ -1,0 +1,86 @@
+import Img0 from "../assets/images/sabiboy0.png";
+import Img1 from "../assets/images/sabiboy1.png";
+import Img2 from "../assets/images/sabiboy2.png";
+
+import { DevelopmentRoadmap } from "../pages/Blog";
+
+## ¿Por qué Rust?
+
+---
+
+Bueno, había oído hablar de Rust desde hace tiempo y quería probarlo. Vi a alguien programando su propio emulador de NES en este lenguaje y pensé "Pues no tá mal".
+Parece que la programación de emuladores y de sistemas de bajo nivel son excelentes aplicaciones por cómo maneja la memoria.
+
+<br />
+## El Camino de la Emulación
+---
+El objetivo principal era crear un emulador funcional para la Gameboy DMG original. Antes de sumergirme en ello, estudié sistemas más sencillos como el chip-8 para entender los fundamentos antes de abordar una arquitectura más compleja.
+
+<DevelopmentRoadmap steps={ [
+    "Implementar una CPU que pase unos tests básicos",
+    "Crear un sistema de memoria que conecte todos los componentes",
+    "Ver la pantalla",
+    "Construir un input system",
+    "Lograr que funcionen juegos básicos",
+    "Añadir características avanzadas (sonido, temporizadores, MBCs...)",
+    "Adaptarlo para que funcione en el navegador",
+    "Crear una biblioteca online"
+  ]} />
+
+No pasó mucho tiempo antes de estar atascado durante días intentando resolver algunos fallos, especialmente con la PPU.
+<div className="flex gap-2 h-full items-center">
+<figure className="flex flex-col items-center mb-2 ">
+  <img
+    src={Img1}
+    alt="Visualización de pelota de tenis"
+    className="self-center w-fit rounded-base border border-base dark:border-darkBorder"
+  />
+  <figcaption className="text-center mt-2 text-base-300">
+    Mis raquetazos son tan fuertes que rebanan pelotas
+  </figcaption>
+</figure>
+
+<figure className="flex flex-col items-center mb-2">
+  <img
+    src={Img0}
+    alt="Visualización del proceso de depuración"
+    className="w-fit rounded-base border border-base dark:border-darkBorder"
+  />
+  <figcaption className="text-center mt-2 text-base-300">
+    Mi cabeza explotó mientras arreglaba este error
+  </figcaption>
+</figure>
+
+</div>
+<figure className="flex flex-col items-center mb-2">
+  <img
+    src={Img2}
+    alt="Interfaz de ventana de depuración"
+    className="w-fit rounded-base border border-base dark:border-darkBorder"
+  />
+  <figcaption className="text-center mt-2 text-base-300">
+    Mi interfaz de debug
+  </figcaption>
+</figure>
+
+<br />
+
+## La Biblioteca
+
+---
+
+Quería hacer una biblioteca server-side que me permitiera acceder fácilmente al emulador desde el navegador.
+
+Para poder usar el emulador, utilicé wasm-bindgen para compilar el código de Rust a un archivo wasm.
+
+Algunas de las características que acabé añadiendo:
+
+-Una biblioteca de juegos donde puedes añadir y gestionar ROMs
+
+-Un sistema de savestates de estado que usa MongoDB
+
+-Ajustes personalizables para el emulador como diferentes paletas de colores o debug
+
+-Modo offline para usuarios sin usuario
+
+<br />

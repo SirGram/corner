@@ -76,6 +76,55 @@ export function ColorPalette({ colors }: ColorPaletteProps) {
     </div>
   );
 }
+interface RoadmapItemProps {
+  number: number;
+  title: string;
+  isLast: boolean;
+}
+
+interface DevelopmentRoadmapProps {
+  steps: string[];
+}
+
+const RoadmapItem: React.FC<RoadmapItemProps> = ({ number, title, isLast }) => (
+  <div className="flex items-start gap-4">
+    <div className="flex flex-col items-center">
+      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary dark:bg-darkPrimary text-white">
+        {number}
+      </div>
+      {!isLast && (
+        <div className="w-0.5 h-12 bg-primary dark:bg-darkPrimary opacity-50" />
+      )}
+    </div>
+    <div className="flex-1 pb-8 ">
+      <div className="flex items-center gap-2">
+        <span className="text-lg font-medium">{title}</span>
+      </div>
+    </div>
+  </div>
+);
+
+export const DevelopmentRoadmap: React.FC<DevelopmentRoadmapProps> = ({
+  steps,
+}) => {
+  return (
+    <div className="max-w-2xl mx-auto p-6 rounded-lg border border-base dark:border-darkBorder">
+      <h2 className="text-2xl font-bold mb-8 text-center">
+        Development Roadmap
+      </h2>
+      <div className="">
+        {steps.map((step, index) => (
+          <RoadmapItem
+            key={index}
+            number={index + 1}
+            title={step}
+            isLast={index === steps.length - 1}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default function Blog() {
   const { id } = useParams<{ id: string }>();
