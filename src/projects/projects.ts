@@ -134,7 +134,7 @@ export const projects: Project[] = [
     },
     name: {
       en: "Knight Travails",
-      es: "MyBookLib",
+      es: "Knight Travails",
     },
     description: {
       en: "A small implementation of breadth first search algorithm in Vanilla JavaScript.",

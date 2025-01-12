@@ -1,4 +1,4 @@
-import { FaGithub,  FaEnvelope } from "react-icons/fa";
+import { FaGithub, FaEnvelope } from "react-icons/fa";
 import { useGlobalContext } from "../context/GlobalContext";
 
 export default function Footer() {
@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer
       id="contact"
-      className="w-full bg-gradient-to-b from-white to-gray-200 dark:from-black dark:to-gray-900 text-gray-600 dark:text-gray-300 pt-14 pb-20 relative z-20"
+      className="w-full bg-gradient-to-b from-base-100 to-base-200 dark:from-darkBase-100 dark:to-darkBase-200 text-text dark:text-darkText pt-14 pb-20 relative z-20"
     >
       <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
         <div className="text-center md:text-left mb-4 md:mb-0">
@@ -28,23 +28,23 @@ export default function Footer() {
               href="https://github.com/sirgram"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white transition-colors duration-300"
+              className="text-text hover:text-gray-800 dark:text-darkText dark:hover:text-white transition-colors duration-300"
               onClick={(e) => e.stopPropagation()}
             >
               <FaGithub size={24} />
             </a>
-           {/*  <a
+            {/*  <a
               href="https://linkedin.com/in/YourLinkedIn"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white transition-colors duration-300"
+              className="text-text hover:text-gray-800 dark:text-darkText dark:hover:text-white transition-colors duration-300"
               onClick={(e) => e.stopPropagation()}
             >
               <FaLinkedin size={24} />
             </a> */}
             <a
               href="mailto:sirgramcg@gmail.com"
-              className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white transition-colors duration-300"
+              className="text-text hover:text-gray-800 dark:text-darkText dark:hover:text-white transition-colors duration-300"
               onClick={(e) => e.stopPropagation()}
             >
               <FaEnvelope size={24} />
