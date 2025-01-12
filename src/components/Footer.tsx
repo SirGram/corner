@@ -1,4 +1,4 @@
-import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { FaGithub,  FaEnvelope } from "react-icons/fa";
 import { useGlobalContext } from "../context/GlobalContext";
 
 export default function Footer() {
@@ -33,7 +33,7 @@ export default function Footer() {
             >
               <FaGithub size={24} />
             </a>
-            <a
+           {/*  <a
               href="https://linkedin.com/in/YourLinkedIn"
               target="_blank"
               rel="noopener noreferrer"
@@ -41,7 +41,7 @@ export default function Footer() {
               onClick={(e) => e.stopPropagation()}
             >
               <FaLinkedin size={24} />
-            </a>
+            </a> */}
             <a
               href="mailto:sirgramcg@gmail.com"
               className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white transition-colors duration-300"
