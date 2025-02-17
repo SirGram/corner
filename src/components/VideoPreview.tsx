@@ -1,89 +1,58 @@
-import { useRef, useEffect, useState } from "react";
+import { useState, useRef, useCallback } from "react";
 
-const VideoPreview = ({
-  src,
-  preview = true,
-}: {
+interface VideoPreviewProps {
   src: string;
   preview?: boolean;
-}) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [gradientStyle, setGradientStyle] = useState<string | null>(null);
+}
 
-  useEffect(() => {
-    if (!preview) return;
-    const videoElement = videoRef.current;
-    if (!videoElement) return;
+const VideoPreview = ({ src, preview = true }: VideoPreviewProps) => {
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
-    const playVideo = () => {
-      videoElement.currentTime = 0;
-      videoElement.play();
-    };
+  // Extract YouTube ID from various URL formats
+  const getYouTubeId = useCallback((url: string): string | null => {
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return match && match[2].length === 11 ? match[2] : null;
+  }, []);
 
-    const checkTime = () => {
-      if (videoElement.currentTime >= 10) {
-        videoElement.currentTime = 0;
-      }
-    };
+  const videoId = getYouTubeId(src);
+  if (!videoId) return null;
 
-    videoElement.addEventListener("loadeddata", playVideo);
-    videoElement.addEventListener("timeupdate", checkTime);
-
-    return () => {
-      videoElement.removeEventListener("loadeddata", playVideo);
-      videoElement.removeEventListener("timeupdate", checkTime);
-    };
-  }, [src, preview]);
-
-  const handleMouseMove = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    const { clientX, clientY, currentTarget } = event;
-    const { left, top } = currentTarget.getBoundingClientRect();
-    const mouseX = clientX - left;
-    const mouseY = clientY - top;
-    const gradient = `radial-gradient(circle at ${mouseX}px ${mouseY}px, transparent,black, black )`;
-    setGradientStyle(gradient);
-  };
-
-  const handleMouseLeave = () => {
-    setGradientStyle(null);
+  const handleClick = () => {
+    setIsPlaying(true);
   };
 
   return (
-    <div className="relative  ">
-      {preview ? (
-        <video
-          ref={videoRef}
-          src={src}
-          preload="auto"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="border-border rounded-base border-base dark:border-darkBorder w-full h-fit"
-        />
-      ) : (
-        <video
-          controls
-          ref={videoRef}
-          src={src}
-          preload="auto"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="border-border rounded-base border-base dark:border-darkBorder w-full h-fit"
-        />
-      )}
-      {preview && (
-        <div
-          className="cursor-custom absolute top-0 left-0 right-0 bottom-0 bg-gray-500 hover:bg-transparent hover:opacity-75 opacity-0 transition-opacity duration-300 h-full w-full"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          style={{ background: gradientStyle || "" }}
-        />
-      )}
+    <div className="relative h-full w-full">
+      <div
+        className="w-full h-fit overflow-hidden rounded-lg border-2 dark:border-darkBorder shadow-xl transition-all duration-300 hover:shadow-2xl"
+        onClick={handleClick}
+        role="button"
+        aria-label="Play Video"
+      >
+        {preview && !isPlaying ? (
+          // Thumbnail for preview
+          <img
+            src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+            alt="Video thumbnail"
+            className="w-full h-full object-cover aspect-video"
+          />
+        ) : (
+          // Directly play the video
+          <iframe
+            ref={iframeRef}
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&modestbranding=1&rel=0`}
+            className="object-contain w-full h-full aspect-video bg-black"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            loading="lazy"
+            title="YouTube video player"
+            aria-label="Embedded video player"
+          />
+        )}
+      </div>
     </div>
   );
 };
