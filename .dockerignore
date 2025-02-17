@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+Dockerfile
+.git
+.gitignore
+*.md

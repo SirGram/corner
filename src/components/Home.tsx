@@ -136,8 +136,8 @@ const Home: React.FC = () => {
           <h1 className="text-7xl font-bold  bg-clip-text ">SIRGRAM</h1>
           <span className="text-xl">
             {language === "en"
-              ? "Web Development student"
-              : "Estudiante de desarrollo web"}
+              ? "Web Development "
+              : "Desarrollo web"}
           </span>
         </div>
       </div>
