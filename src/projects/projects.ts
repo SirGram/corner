@@ -28,7 +28,7 @@ export const projects: Project[] = [
     },
     src: "https://youtu.be/VsAFKySBn8A",
     codeURL: "https://github.com/SirGram/comicstore",
-    previewURL: "https://comicstore.fly.dev",
+    previewURL: "https://comicstore.sirgram.com",
     technologies: ["tailwind", "nextjs", "typescript", "react"],
     mdxContent: {
       en: comicStoreMDX_EN,
@@ -176,7 +176,7 @@ export const projects: Project[] = [
       es: "Juego de mesa multiplayer con react 3 fiber. Utiliza socket.io para interacciones en tiempo real entre jugadores.",
     },
     codeURL: "https://github.com/SirGram/tak",
-    previewURL: "https://tak.fly.dev/",
+    previewURL: "https://tak.sirgram.com",
     technologies: [
       "typescript",
       "tailwind",
@@ -207,7 +207,7 @@ export const projects: Project[] = [
       es: " Un sitio web de blog construido con Nest.js y Vite. Los usuarios pueden ver posts y comentarios. Los usuarios con el rol de administrador pueden crear, editar y eliminar posts así como eliminar comentarios y crear otros usuarios administradores. Los blogs se crean en Markdown y se pueden editar en el panel de administración.",
     },
     codeURL: "https://github.com/SirGram/myblog",
-    previewURL: "https://my-blog1.fly.dev/",
+    previewURL: "https://my-blog1.sirgram.com/",
     technologies: [
       "nestjs",
       "tailwind",
@@ -238,7 +238,7 @@ export const projects: Project[] = [
       es: "SabiBoy es un emulador y una biblioteca de Gameboy. Permite a los usuarios ejecutar juegos de Gameboy directamente en el navegador con características como la gestión de la biblioteca de juegos, estados guardados utilizando MongoDB y configuraciones personalizables. El proyecto fue desarrollado para explorar más sobre la programación a bajo nivel.",
     },
     codeURL: "https://github.com/SirGram/sabiboy",
-    previewURL: "https://sabiboy.fly.dev/",
+    previewURL: "https://sabiboy.sirgram.com/",
     technologies: [
       "rust",
       "nestjs",

@@ -1,0 +1,29 @@
+[33mcommit b62f284fdd19c4fcac3bfde3b63670477db309e7[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: SirGram <sirgramcg@gmail.com>
+Date:   Mon Feb 17 01:22:56 2025 +0100
+
+    reduced docker size, removed videos
+
+[33mcommit de61427085c768f172a6f15de372071928ff85a7[m
+Author: SirGram <sirgramcg@gmail.com>
+Date:   Sun Jan 12 20:34:43 2025 +0100
+
+    added sabiboy project
+
+[33mcommit f7dc4da2bb3d57ccf129a7c572b7de0f67de66fc[m
+Author: SirGram <sirgramcg@gmail.com>
+Date:   Wed Jul 10 18:09:52 2024 +0200
+
+    myblog, router scroll
+
+[33mcommit b545894055e090c07e633c79d384606ea50f3a3f[m
+Author: SirGram <sirgramcg@gmail.com>
+Date:   Mon Jul 8 13:40:58 2024 +0200
+
+    domino, tak project
+
+[33mcommit f8768faf8eb200bb19d977b2178c8d6692810f57[m
+Author: SirGram <sirgramcg@gmail.com>
+Date:   Sun Jun 30 14:35:49 2024 +0200
+
+    menu nav, project card, video preview, mdx setup
