@@ -207,7 +207,7 @@ export const projects: Project[] = [
       es: " Un sitio web de blog construido con Nest.js y Vite. Los usuarios pueden ver posts y comentarios. Los usuarios con el rol de administrador pueden crear, editar y eliminar posts así como eliminar comentarios y crear otros usuarios administradores. Los blogs se crean en Markdown y se pueden editar en el panel de administración.",
     },
     codeURL: "https://github.com/SirGram/myblog",
-    previewURL: "https://my-blog1.sirgram.com/",
+    previewURL: "https://myblog.sirgram.com/",
     technologies: [
       "nestjs",
       "tailwind",
